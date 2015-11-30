@@ -1,0 +1,4 @@
+Sitemap: http://terminalworld.github.io/sitemap.xml
+User-agent: *
+Allow: /
+

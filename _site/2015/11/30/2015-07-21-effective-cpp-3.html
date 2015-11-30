@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="keywords" content="C++,宏">
+  
+  
+    <meta name="description" content="尽量使用常量，以逻辑常量的方式编写常量方法，使用普通方法调用常量方法可避免代码重复。">
+  
+  <meta name="author" content="terminal">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="baidu-site-verification" content="u8YJqmJmcq" />
+
+  <link type="application/atom+xml" rel="alternate" href="http://terminalworld.github.io/feed.xml" title="terminalworld" />
+  <link rel="shortcut icon" href="/assets/img/favicon.png">
+  <link rel="stylesheet" href="/assets/lib/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/lib/font-awesome/4.2.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/lib/jQCloud/jqcloud.css">
+  <link rel="stylesheet" href="/assets/css/sticky-footer-navbar.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <script src="/assets/lib/jquery/jquery-2.0.3.min.js"></script>
+
+  <title>Item 3：尽量使用常量</title>
+</head>
+
+<body>
+<!-- Wrap all page content here -->
+<div id="wrap">
+  <!-- Navbar -->
+  <div class="navbar navbar-default navbar-inverse global-nav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Terminalworld</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav pull-right">
+          <li id="archive"><a href="/date.html">归档</a></li>
+          <li id="timeline"><a href="/timeline.html">印迹</a></li>
+          <li id="about"><a href="/about.html">关于</a></li>
+
+<!--
+          <li id="timeline"><a href="/timeline.html">Timeline</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li id="about"><a href="/about.html">About</a></li>
+              <li id="album"><a href="/album.html">Album</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+          <form class="navbar-form navbar-right" role="search" action="http://google.com/search" method="get">
+            <input type="hidden" name="q" value="site:terminalworld.github.io">
+            <input type="text" class="form-control input-sm" placeholder="Search..." name="q">
+          </form>
+        </ul>
+
+-->        
+
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+  <!-- Begin page content -->
+  <div id="main-content">
+    <style>
+.headerbar{
+  background: white;
+  border-bottom: 2px solid #eaeaeb;
+}
+.headerbar .page-header{
+  border-bottom: 0;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+#page-content{
+  margin-bottom: 15px;
+}
+@media (max-width: 768px){
+  .header{
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .meta{
+    display: none;
+  }
+}
+</style>
+
+<div class="headerbar">
+  <div class="page-header container-fluid">
+    <h3 class="header">
+      Item 3：尽量使用常量 <small>Effective C++笔记</small>
+    </h3>
+    <div class="meta">
+        <div class="pull-left">
+            
+
+<span class="label label-blue" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-folder-open"></span>
+    <a href="/category.html#category-reading"> Reading</a>
+</span>
+
+
+            
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-C++">C++</a>
+</span>
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-%E5%AE%8F">宏</a>
+</span>
+
+
+        </div>
+        <div class="pull-right text-muted">
+            <span class="widget-date">
+
+  <a data-post-date="2015-11-30"
+     href="/date.html#date-2015-11" >
+    <i class="glyphicon glyphicon-time"></i>
+    2015-11-30
+  </a>
+</span>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div id="page-content">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+<link rel="stylesheet" href="/assets/css/vs-syntax.css">
+<style>
+  .sidebar {
+    width: 200px;
+    margin-top: 20px;
+    border: 1px solid #eaeaeb;
+  }
+
+  .sidebar ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .sidebar.affix {
+    position: fixed;
+    top: 0;
+  }
+
+  .sidebar.affix-bottom {
+    position: absolute;
+  }
+
+  .sidebar .nav{
+    font-size: 13px;
+  }
+  .sidebar .nav .nav {
+    display: none;
+  }
+
+  .sidebar .nav > .active > ul {
+    display: block;
+  }
+
+  .sidebar .nav > li > a {
+    display: block;
+    padding: 5px 15px;
+    color: #999;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar .nav .nav > li > a {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-left: 10px;
+    font-size: 90%;
+  }
+
+  .sidebar .nav .nav .nav > li > a {
+    margin-left: 20px;
+  }
+
+  .sidebar .nav .nav .nav .nav > li > a {
+    margin-left: 30px;
+  }
+
+  .sidebar .nav .nav .nav .nav .nav > li > a {
+    margin-left: 40px;
+  }
+
+  .sidebar .nav .nav .nav .nav .nav .nav > li > a {
+    margin-left: 50px;
+  }
+
+  .sidebar .nav > .active > a,
+  .sidebar .nav > :hover > a{
+    color: #333;
+    text-decoration: none;
+    border-right: 2px solid #f7565b;
+  }
+  .nav>li>a:hover, .nav>li>a:focus:hover {
+    text-decoration: none;
+    background-color: #f0f0f0;
+  }
+  .nav>li>a:focus{
+    background-color: transparent;
+  }
+  .sidenav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+  }
+
+  .MathJax * {
+    color: black !important;
+  }
+
+  .md {
+    margin-top: 20px;
+    padding: 100px;
+  }
+
+  @media (max-width: 768px) {
+    .md {
+      padding: 20px 20px 40px;
+    }
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
+
+  .copyright hr {
+    margin: 45px 0 10px!important;
+  }
+</style>
+
+<div class="row post-display">
+  <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs left">
+    <div class="sidebar"></div>
+  </div>
+  <div class="col-lg-10 col-md-9 col-sm-8 right">
+    <div class="md paper">
+      <blockquote>
+<p>Item 3: Use const whenever possible</p>
+</blockquote>
+
+<p>尽量使用常量。不需多说，这是防卫型（defensive）程序设计的原则，
+尽量使用常量限定符，从而防止客户错误地使用你的代码。</p>
+
+<h1>常量的声明</h1>
+
+<p>总结一下各种指针的声明方式吧：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">char</span> <span class="n">greeting</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;Hello&quot;</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>                    <span class="c1">// non-const pointer, non-const data</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>              <span class="c1">// non-const pointer, const data</span>
+<span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>             <span class="c1">// const pointer, non-const data</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>       <span class="c1">// const pointer, const data </span>
+</code></pre></div>
+<p><code>const</code>出现在<code>*</code>左边则被指向的对象是常量，出现在<code>*</code>右边则指针本身是常量。
+然而对于常量对象，有人把<code>const</code>放在类型左边，有人把<code>const</code>放在<code>*</code>左边，都是可以的：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">f1</span><span class="p">(</span><span class="k">const</span> <span class="n">Widget</span> <span class="o">*</span><span class="n">pw</span><span class="p">);</span>   <span class="c1">// f1 takes a pointer to a constant Widget object</span>
+<span class="kt">void</span> <span class="nf">f2</span><span class="p">(</span><span class="n">Widget</span> <span class="k">const</span> <span class="o">*</span><span class="n">pw</span><span class="p">);</span>   <span class="c1">// 等效</span>
+</code></pre></div>
+<p>STL的iterator也是类似的，如果你希望指针本身是常量，可以声明<code>const iterator</code>；
+如果你希望指针指向的对象是常量，请使用<code>const_iterator</code>：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+
+<span class="c1">// iter acts like a T* const</span>
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<span class="o">*</span><span class="n">iter</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>                              <span class="c1">// OK, changes what iter points to</span>
+<span class="o">++</span><span class="n">iter</span><span class="p">;</span>                                  <span class="c1">// error! iter is const</span>
+
+<span class="c1">//cIter acts like a const T*</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">const_iterator</span> <span class="n">cIter</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<span class="o">*</span><span class="n">cIter</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>                             <span class="c1">// error! *cIter is const</span>
+<span class="o">++</span><span class="n">cIter</span><span class="p">;</span>                                 <span class="c1">// fine, changes cIter</span>
+</code></pre></div>
+<p>返回值声明为常量可以防止你的代码被错误地使用，例如实数相加的方法：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">const</span> <span class="n">Rational</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">Rational</span><span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rational</span><span class="o">&amp;</span> <span class="n">rhs</span><span class="p">);</span>
+</code></pre></div>
+<p>当用户错误地使用<code>=</code>时：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">Rational</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="p">){</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>编译器便会给出错误：不可赋值给常量。</p>
+
+<!--more-->
+
+<h1>常量成员方法</h1>
+
+<p>声明常量成员函数是为了确定哪些方法可以通过常量对象来访问，另外一方面让接口更加易懂：
+很容易知道哪些方法会改变对象，哪些不会。</p>
+
+<p>成员方法添加常量限定符属于函数重载。常量对象只能调用常量方法，
+非常量对象优先调用非常量方法，如不存在会调用同名常量方法。
+常量成员函数也可以在类声明外定义，但声明和定义都需要指定<code>const</code>关键字。
+例如：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">TextBlock</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="k">const</span> <span class="kt">char</span><span class="o">&amp;</span> <span class="k">operator</span><span class="p">[](</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">position</span><span class="p">)</span> <span class="k">const</span>   <span class="c1">// operator[] for</span>
+  <span class="p">{</span> <span class="k">return</span> <span class="n">text</span><span class="p">[</span><span class="n">position</span><span class="p">];</span> <span class="p">}</span>                           <span class="c1">// const objects</span>
+
+  <span class="kt">char</span><span class="o">&amp;</span> <span class="k">operator</span><span class="p">[](</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">position</span><span class="p">)</span>               <span class="c1">// operator[] for</span>
+  <span class="p">{</span> <span class="k">return</span> <span class="n">text</span><span class="p">[</span><span class="n">position</span><span class="p">];</span> <span class="p">}</span>                           <span class="c1">// non-const objects</span>
+
+<span class="k">private</span><span class="o">:</span>
+   <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">TextBlock</span> <span class="nf">tb</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">);</span>
+<span class="k">const</span> <span class="n">TextBlock</span> <span class="nf">ctb</span><span class="p">(</span><span class="s">&quot;World&quot;</span><span class="p">);</span>
+<span class="n">tb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;x&#39;</span><span class="p">;</span>             <span class="c1">// fine — writing a non-const TextBlock</span>
+<span class="n">ctb</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;x&#39;</span><span class="p">;</span>            <span class="c1">// error! — writing a const TextBlock</span>
+</code></pre></div>
+<h1>比特常量和逻辑常量</h1>
+
+<p><strong>比特常量</strong>（bitwise constness）：如果一个方法不改变对象的任何非静态变量，那么该方法是常量方法。
+比特常量是C++定义常量的方式，然而一个满足比特常量的方法，却不见得表现得像个常量，
+尤其是数据成员是指针时：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">TextBlock</span><span class="p">{</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">text</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">char</span><span class="o">&amp;</span> <span class="k">operator</span><span class="p">[](</span><span class="kt">int</span> <span class="n">pos</span><span class="p">)</span> <span class="k">const</span><span class="p">{</span>
+        <span class="k">return</span> <span class="n">text</span><span class="p">[</span><span class="n">pos</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">const</span> <span class="n">TextBlock</span> <span class="n">tb</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">tb</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>因为<code>char* text</code>并未发生改变，所以编译器认为我们的操作都是合法的。
+然而我们定义了一个常量对象<code>tb</code>，只调用它的常量方法，却能够修改<code>tb</code>的数据。
+对数据的操作甚至可以放在<code>operator[]()</code>方法里面。</p>
+
+<p>这一点不合理之处引发了<strong>逻辑常量</strong>（logical constness）的讨论：常量方法可以修改数据成员，
+只要客户检测不到变化就可以。可是常量方法修改数据成员C++编译器不会同意的！这时我们需要<code>mutable</code>限定符：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CTextBlock</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">length</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+<span class="k">private</span><span class="o">:</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">pText</span><span class="p">;</span>
+
+  <span class="k">mutable</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">textLength</span><span class="p">;</span>         <span class="c1">// these data members may</span>
+  <span class="k">mutable</span> <span class="kt">bool</span> <span class="n">lengthIsValid</span><span class="p">;</span>             <span class="c1">// always be modified</span>
+<span class="p">};</span>                                     
+
+<span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">CTextBlock</span><span class="o">::</span><span class="n">length</span><span class="p">()</span> <span class="k">const</span><span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">lengthIsValid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">textLength</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">strlen</span><span class="p">(</span><span class="n">pText</span><span class="p">);</span>
+    <span class="n">lengthIsValid</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>          
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">textLength</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h1>避免常量/非常量方法的重复</h1>
+
+<p>通常我们需要定义成对的常量和普通方法，只是返回值的修改权限不同。
+当然我们不希望重新编写方法的逻辑。最先想到的方法是常量方法调用普通方法，然而这是C++语法不允许的。
+于是我们只能用普通方法调用常量方法，并做相应的类型转换：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">const</span> <span class="kt">char</span><span class="o">&amp;</span> <span class="k">operator</span><span class="p">[](</span><span class="kt">size_t</span> <span class="n">pos</span><span class="p">)</span> <span class="k">const</span><span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+
+<span class="kt">char</span><span class="o">&amp;</span> <span class="k">operator</span><span class="p">[](</span><span class="kt">size_t</span> <span class="n">pos</span><span class="p">){</span>
+    <span class="k">return</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&amp;&gt;</span><span class="p">(</span>
+        <span class="k">static_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">TextBlock</span><span class="o">&amp;&gt;</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)</span>
+            <span class="p">[</span><span class="n">pos</span><span class="p">]</span>   
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><code>*this</code>的类型是<code>TextBlock</code>，先把它强制隐式转换为<code>const TextBlock</code>，这样我们才能调用那个常量方法。</li>
+<li>调用<code>operator[](size_t) const</code>，得到的返回值类型为<code>const char&amp;</code>。</li>
+<li>把返回值去掉<code>const</code>属性，得到类型为<code>char&amp;</code>的返回值。</li>
+</ol>
+
+      <div class="copyright">
+        <hr/>
+        <p>
+          除非注明，本博客文章均为原创，转载请以链接形式标明本文地址：
+          <a href="/2015/11/30/2015-07-21-effective-cpp-3.html">http://terminalworld.github.io/2015/11/30/2015-07-21-effective-cpp-3.html</a>
+        </p>
+      </div>
+    </div>
+
+    <ul class="pager" style="margin: 30px 0 0">
+    
+    <li class="previous">
+        <a data-toggle="tooltip" data-placement="right" title="Item 2：避免使用define" href="/2015/11/30/2015-07-20-effective-cpp-2.html">&larr; 上一篇</a>
+    </li>
+    
+    
+</ul>
+
+
+    <!--<hr style="margin: 20px 0;"/>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'harttleland'; 
+  $(function () {
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  });
+</script>
+<noscript>请 <a href="http://disqus.com/?ref_noscript">启用 JavaScript</a> 来查看评论 </noscript>
+-->
+  </div>
+</div>
+
+<script>
+  $(function () {
+    var toc = getTOC($('.post-display .right'));
+    if (toc != null) {
+      $('.sidebar').append(toc);
+
+      //sidebar affix, this offset is for sidebar position recognition
+      setTimeout(function () {
+        var $sideBar = $('.sidebar');
+        $sideBar.affix({
+          offset: {
+            top: function () {
+              var offsetTop = $sideBar.offset().top;
+              return (this.top = offsetTop - 20);
+            },
+            bottom: function () {
+              return (this.bottom = $(document).height() - $('.md').offset().top - $('.md').height());
+            }
+          }
+        });
+      }, 100);
+
+      //sidebar scroll spy
+      $('body').scrollspy({
+        target: '.sidebar',
+        offset: 10  //make sure to spy the element when scrolled to
+      });
+    }
+    else {
+      $('.post-display .right')
+          .removeClass('col-lg-10 col-md-9 col-sm-8')
+          .addClass('col-md-12');
+      $('.post-display').removeClass('row-fluid');
+      $('.post-display .left').remove();
+    }
+
+    $(window).resize(function () {
+      $('body').scrollspy('refresh');
+    });
+
+  });
+
+  //生成目录
+  function getTOC($content) {
+    var $toc = $('<ul class="nav level-0" >').addClass("nav sidenav");
+
+    var base_level = 1;
+    while ($content.find('h' + base_level).length < 1 && base_level < 7) base_level += 1;
+    if (base_level == 7) return null;
+
+    $content.find(':header').each(function (i) {
+      var $this = $(this);
+      $this.attr('id', i);
+
+      var level = parseInt(this.nodeName.substr(1));
+      var offset = level - base_level;
+
+      var li = new $('<li/>')
+          .append('<a href="#' + i + '" class="animate">' + $this.text() + '</a>')
+          .append($('<ul class="nav level-' + (offset + 1) + '"/>'));
+
+      $('<div>').append($toc).find('ul.level-' + offset + ':last').append(li);
+    });
+    // remove empty ul
+    $toc.find('ul').not(':parent').remove();
+    return $toc;
+  }
+</script>
+
+<!-- latex render begin -->
+<script type="text/x-mathjax-config">  
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$', '$'] ],
+            displayMath: [ ['$$', '$$'], ['$$$', '$$$']],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+    MathJax.Hub.Queue(function () {
+        $('body').scrollspy('refresh'); 
+    });
+</script>
+
+<script async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<!-- latex render end -->
+
+
+
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<!--
+
+<div id="footer">
+  <div class="container-fluid">
+    <div class="credit nowrap">
+      <p class="text-muted" title="Copyright © 2013 Harttle. Hosted by GitHub and powered by Jekyll.">
+        Copyright © 2013
+        <a href="//harttle.github.io">Harttle</a>. Hosted by
+        <a href="//github.com/" target="_blank">GitHub</a>
+        and powered by
+        <a href="//jekyllrb.com/">Jekyll</a>.
+      </p>
+      <span class="pull-right hidden-xs follow">
+        <a href="https://www.facebook.com/harttle" target="_blank"> <i class="fa fa-facebook-square fa-lg"></i>
+        </a>
+        <a href="http://www.linkedin.com/profile/view?id=294339963" target="_blank"> <i
+            class="fa fa-linkedin-square fa-lg"></i> </a>
+        <a href="https://plus.google.com/113657098095399233141?rel=author" target="_blank"> <i
+            class="fa fa-google-plus-square fa-lg"></i> </a>
+        <a href="//github.com/harttle/harttle.github.io" target="_blank"> <i class="fa fa-github fa-lg"></i>
+        </a>
+        <a href="/feed.xml" target="_blank"> <i class="fa fa-rss-square fa-lg"></i> </a>
+      </span>
+
+    </div>
+  </div>
+</div>
+
+-->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="//oss.maxcdn.com/libs/html5shiv/3.6.2/html5shiv.js"></script>
+<script src="//v3.bootcss.com/docs-assets/js/respond.min.js"></script>
+<![endif]-->
+<script src="/assets/lib/jquery/jquery.scrollUp.min.js"></script>
+<script src="/assets/lib/jquery/jquery.lazyload.min.js" type="text/javascript"></script>
+<script src="/assets/lib/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/lib/jQCloud/jqcloud.min.js"></script>
+
+
+<script>
+  var footHeight = $('#footer').outerHeight(true);
+  $(function () {
+    
+
+      //激活工具提示
+      $('[data-toggle="tooltip"]').tooltip();
+
+      //图片延迟加载
+      $("img.lazy").lazyload({effect: "fadeIn", skip_invisible: false});	//bootstrap thumbnail img will be invisible at the begining
+
+      //回到顶部按钮
+      $.scrollUp({
+        scrollName: 'scrollUp', topDistance: '300', topSpeed: 300, animation: 'fade', animationInSpeed: 500,
+        animationOutSpeed: 500, scrollText: '', activeOverlay: false,
+      });
+
+      //页面内链接滑动效果
+      $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+      $('a.animate').click(function () {
+        if ($(this).attr('offset')) {
+          offset += parseInt($(this).attr('offset'));
+        }
+        $body.animate({scrollTop: $($(this).attr('href')).offset().top}, 500);
+        return false;
+      });
+    });
+</script>
+
+</body>
+</html>

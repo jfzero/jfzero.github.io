@@ -1,0 +1,28 @@
+name: terminalworld 
+url: http://terminalworld.github.io
+description: Time goes on. We live. We learn.
+keywords: C++, Linux, Bash, Vim, Makefile, Pthread
+
+permalink: /:year/:month/:day/:title.html
+paginate: 4
+paginate_path: "page:num"
+
+markdown: redcarpet
+markdown_ext:  md
+highlighter: pygments
+excerpt_separator: "<!--more-->"
+redcarpet:
+    extensions: [no_intra_emphasis,tables,autolink,fenced_code_blocks]
+
+exclude: ['README.md', '*.sh', '.*', 'scripts/', 'backup']
+
+gems:
+  - jekyll-sitemap
+  - jekyll-redirect-from
+  - jekyll-feed
+
+cate_icons:
+  reading: "fa-book"
+  linux: "fa-linux"
+  web: "fa-html5"
+  misc: "fa-file-text"

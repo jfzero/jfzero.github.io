@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="keywords" content="C++, Linux, Bash, Vim, Makefile, Pthread">
+  
+  
+    <meta name="description" content="Time goes on. We live. We learn.">
+  
+  <meta name="author" content="terminal">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="baidu-site-verification" content="u8YJqmJmcq" />
+
+  <link type="application/atom+xml" rel="alternate" href="http://terminalworld.github.io/feed.xml" title="terminalworld" />
+  <link rel="shortcut icon" href="/assets/img/favicon.png">
+  <link rel="stylesheet" href="/assets/lib/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/lib/font-awesome/4.2.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/lib/jQCloud/jqcloud.css">
+  <link rel="stylesheet" href="/assets/css/sticky-footer-navbar.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <script src="/assets/lib/jquery/jquery-2.0.3.min.js"></script>
+
+  <title></title>
+</head>
+
+<body>
+<!-- Wrap all page content here -->
+<div id="wrap">
+  <!-- Navbar -->
+  <div class="navbar navbar-default navbar-inverse global-nav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Terminalworld</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav pull-right">
+          <li id="archive"><a href="/date.html">归档</a></li>
+          <li id="timeline"><a href="/timeline.html">印迹</a></li>
+          <li id="about"><a href="/about.html">关于</a></li>
+
+<!--
+          <li id="timeline"><a href="/timeline.html">Timeline</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li id="about"><a href="/about.html">About</a></li>
+              <li id="album"><a href="/album.html">Album</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+          <form class="navbar-form navbar-right" role="search" action="http://google.com/search" method="get">
+            <input type="hidden" name="q" value="site:terminalworld.github.io">
+            <input type="text" class="form-control input-sm" placeholder="Search..." name="q">
+          </form>
+        </ul>
+
+-->        
+
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+  <!-- Begin page content -->
+  <div id="main-content">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+<link rel="stylesheet" href="/assets/css/vs-syntax.css">
+<link rel="stylesheet" href="/assets/css/index.css">
+<script src="/assets/lib/jquery/jquery-ias.min.js"></script>
+
+<div class="row">
+
+  <div class="col-md-4 col-lg-2 hidden-sm"> </div>
+
+  <div class="col-md-8 col-lg-8"> 
+
+    <div id="posts">
+      
+      <div class="post paper">
+        <h3 class="header">
+          <a class="feature-link" href="/2015/11/30/2015-07-21-effective-cpp-3.html">Item 3：尽量使用常量</a>
+
+          <div class="pull-right text-muted">
+            <span class="widget-date">
+
+  <a data-post-date="2015-11-30"
+     href="/date.html#date-2015-11" >
+    <i class="glyphicon glyphicon-time"></i>
+    2015-11-30
+  </a>
+</span>
+
+          </div>
+        </h3>
+        <p class="meta">
+          
+
+<span class="label label-blue" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-folder-open"></span>
+    <a href="/category.html#category-reading"> Reading</a>
+</span>
+
+
+          
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-C++">C++</a>
+</span>
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-%E5%AE%8F">宏</a>
+</span>
+
+
+        </p>
+
+        <div class="md"><blockquote>
+<p>Item 3: Use const whenever possible</p>
+</blockquote>
+
+<p>尽量使用常量。不需多说，这是防卫型（defensive）程序设计的原则，
+尽量使用常量限定符，从而防止客户错误地使用你的代码。</p>
+
+<h1>常量的声明</h1>
+
+<p>总结一下各种指针的声明方式吧：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">char</span> <span class="n">greeting</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;Hello&quot;</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>                    <span class="c1">// non-const pointer, non-const data</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>              <span class="c1">// non-const pointer, const data</span>
+<span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>             <span class="c1">// const pointer, non-const data</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">p</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>       <span class="c1">// const pointer, const data </span>
+</code></pre></div>
+<p><code>const</code>出现在<code>*</code>左边则被指向的对象是常量，出现在<code>*</code>右边则指针本身是常量。
+然而对于常量对象，有人把<code>const</code>放在类型左边，有人把<code>const</code>放在<code>*</code>左边，都是可以的：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">f1</span><span class="p">(</span><span class="k">const</span> <span class="n">Widget</span> <span class="o">*</span><span class="n">pw</span><span class="p">);</span>   <span class="c1">// f1 takes a pointer to a constant Widget object</span>
+<span class="kt">void</span> <span class="nf">f2</span><span class="p">(</span><span class="n">Widget</span> <span class="k">const</span> <span class="o">*</span><span class="n">pw</span><span class="p">);</span>   <span class="c1">// 等效</span>
+</code></pre></div>
+<p>STL的iterator也是类似的，如果你希望指针本身是常量，可以声明<code>const iterator</code>；
+如果你希望指针指向的对象是常量，请使用<code>const_iterator</code>：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+
+<span class="c1">// iter acts like a T* const</span>
+<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<span class="o">*</span><span class="n">iter</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>                              <span class="c1">// OK, changes what iter points to</span>
+<span class="o">++</span><span class="n">iter</span><span class="p">;</span>                                  <span class="c1">// error! iter is const</span>
+
+<span class="c1">//cIter acts like a const T*</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">const_iterator</span> <span class="n">cIter</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<span class="o">*</span><span class="n">cIter</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>                             <span class="c1">// error! *cIter is const</span>
+<span class="o">++</span><span class="n">cIter</span><span class="p">;</span>                                 <span class="c1">// fine, changes cIter</span>
+</code></pre></div>
+<p>返回值声明为常量可以防止你的代码被错误地使用，例如实数相加的方法：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">const</span> <span class="n">Rational</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">Rational</span><span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rational</span><span class="o">&amp;</span> <span class="n">rhs</span><span class="p">);</span>
+</code></pre></div>
+<p>当用户错误地使用<code>=</code>时：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">Rational</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="p">){</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>编译器便会给出错误：不可赋值给常量。</p>
+
+</div>
+
+<!--        
+        <a class="more pull-right" href="/2015/11/30/2015-07-21-effective-cpp-3.html" target='_blank'>
+          全文
+          <span class="fa fa-angle-right"></span>
+        </a>
+-->        
+      </div>
+      
+      <div class="post paper">
+        <h3 class="header">
+          <a class="feature-link" href="/2015/11/30/2015-07-20-effective-cpp-2.html">Item 2：避免使用define</a>
+
+          <div class="pull-right text-muted">
+            <span class="widget-date">
+
+  <a data-post-date="2015-11-30"
+     href="/date.html#date-2015-11" >
+    <i class="glyphicon glyphicon-time"></i>
+    2015-11-30
+  </a>
+</span>
+
+          </div>
+        </h3>
+        <p class="meta">
+          
+
+<span class="label label-blue" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-folder-open"></span>
+    <a href="/category.html#category-c++"> C++</a>
+</span>
+
+
+          
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-C++">C++</a>
+</span>
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-%E5%AE%8F">宏</a>
+</span>
+
+
+        </p>
+
+        <div class="md"><blockquote>
+<p>Item 2: Prefer consts, enums, and inlines to #defines</p>
+</blockquote>
+
+<p>尽量使用常量、枚举和内联函数，代替<code>#define</code>。我们知道<code>#define</code>定义的宏会在编译时进行替换，属于模块化程序设计的概念。
+宏是全局的，面向对象程序设计中破坏了封装。因此在C++中尽量避免它！</p>
+
+<p>接着我们具体来看<code>#define</code>造成的问题。</p>
+
+<h1>不易理解</h1>
+
+<p>众所周知，由于预处理器会直接替换的原因，宏定义最好用括号括起来。<code>#define</code>函数将会产生出乎意料的结果：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#define MAX(a,b) a&gt;b?a:b</span>
+<span class="n">MAX</span><span class="p">(</span><span class="n">i</span><span class="o">++</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+</code></pre></div>
+<p><code>i</code>自加次数将取决于<code>j</code>的大小，然而调用者并不知情。宏的行为不易理解，本质上是因为宏并非C++语言的一部分，它只是源代码的预处理手段。</p>
+
+<h1>不利于调试</h1>
+
+<p>宏替换发生在编译时，语法检查之前。因此相关的编译错误中不会出现宏名称，我们不知道是哪个宏出了问题。例如：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#define PERSON alice</span>
+<span class="n">PERSON</span> <span class="o">=</span> <span class="n">bob</span><span class="p">;</span>
+</code></pre></div>
+<p>如果<code>alice</code>未定义，<code>PERSON=bob;</code>便会出错：<code>use of undeclared identifier &#39;alice&#39;</code>。
+然而我们可能不知道<code>alice</code>是什么东西，<code>PERSON</code>才是我们定义的“变量”。</p>
+
+<p>宏替换是在预处理过程中进行的，原则上讲编译器不知道宏的概念。然而，在现代的编译器中（例如<code>Apple LLVM version 6.0</code>），
+编译器会记录宏替换信息，在编译错误中给出宏的名称：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">test.cpp:8:5: error: use of undeclared identifier &#39;alice&#39;
+    PERSON  = bob;
+    ^
+test.cpp:4:16: note: expanded from macro &#39;PERSON&#39;
+#define PERSON alice;
+               ^
+</code></pre></div>
+<p>于是，Meyers提到的这个问题已经不存在了。然而作者的本意在于：尽量使用编译器，而不是预处理器。
+因为<code>#define</code>并不是C++语言的一部分。</p>
+
+<h1>enum 比 const 更好用</h1>
+
+<p>既然<code>#define</code>不能封装在一个类中，我们可以用<code>static const</code>来定义一个常量，并把它的作用于局限在当前类：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">C</span><span class="p">{</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">NUM</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">NUM</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>通常C++要求所有的声明都给出定义，然而数值类型（<code>char</code>, <code>int</code>, <code>long</code>）的静态常量可以只给声明。这里的<code>NUM</code>就是一个例子。
+然而，如果你想取<code>NUM</code>的地址，则会得到编译错误：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Undefined symbols for architecture x86_64:
+  &quot;C::NUM&quot;, referenced from:
+      _main in a-88bbac.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</code></pre></div>
+<p>因此如果你要取地址，那么就给出它的定义：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">C</span><span class="p">{</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">NUM</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">NUM</span><span class="p">];</span>
+<span class="p">};</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">C</span><span class="o">::</span><span class="n">NUM</span><span class="p">;</span>
+</code></pre></div>
+<blockquote>
+<p>因为声明<code>NUM</code>时已经给定了初始值，定义时不允许再次给初始值。</p>
+</blockquote>
+
+<p>如果使用<code>enum</code>，事情会简单很多：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">C</span><span class="p">{</span>
+    <span class="k">enum</span> <span class="p">{</span> <span class="n">NUM</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">};</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">NUM</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<!--        
+        <a class="more pull-right" href="/2015/11/30/2015-07-20-effective-cpp-2.html" target='_blank'>
+          全文
+          <span class="fa fa-angle-right"></span>
+        </a>
+-->        
+      </div>
+      
+      <div class="post paper">
+        <h3 class="header">
+          <a class="feature-link" href="/2015/11/30/2015-07-19-effective-cpp-1.html">Item 1：将C++视作一系列的语言</a>
+
+          <div class="pull-right text-muted">
+            <span class="widget-date">
+
+  <a data-post-date="2015-11-30"
+     href="/date.html#date-2015-11" >
+    <i class="glyphicon glyphicon-time"></i>
+    2015-11-30
+  </a>
+</span>
+
+          </div>
+        </h3>
+        <p class="meta">
+          
+
+<span class="label label-blue" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-folder-open"></span>
+    <a href="/category.html#category-c++"> C++</a>
+</span>
+
+
+          
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-C++">C++</a>
+</span>
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-STL">STL</a>
+</span>
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-%E6%A8%A1%E6%9D%BF">模板</a>
+</span>
+
+
+        </p>
+
+        <div class="md"><blockquote>
+<p>Item 1: View C++ as a federation of languages</p>
+</blockquote>
+
+<p>最初，C++只是C语言加上一些面向对象的特性，所以C++的原名是“C with Classes”。
+现在的C++已经逐渐成熟，成为一门<strong>多范式的程序设计语言</strong>（multiparadigm programming language）。同时支持过程式、面向对象、函数式、泛型编程，以及元编程。</p>
+
+<p>C++的灵活使得它在很多问题上并没有统一的规则，而是取决于具体的程序设计范式和当前架构的设计意图。这样的情况下，我们最好把C++看做是一系列的编程语言，而非一种特定的编程语言。</p>
+
+<p>C++有四种主要的子语言：</p>
+
+<ul>
+<li>C。C++是基于C设计的，你可以只使用C++中C的那部分语法。此时你会发现你的程序反映的完全是C的特征：没有模板、没有异常、没有重载。</li>
+<li>Object-Oriented C++。面向对象程序设计也是C++的设计初衷：构造与析构、封装与继承、多态、动态绑定的虚函数。</li>
+<li>Template C++。这是C++的泛型编程部分，多数程序员很少涉及，但模板在很多情况下仍然很方便。另外<strong>模板元编程</strong>（template metaprogramming）也是一个新兴的程序设计范式，虽然有点非主流。</li>
+<li>STL。这是一个特殊的模板库，它的容器、迭代器和算法优雅地结合在一起，只是在使用时你需要遵循它的程序设计惯例。当然你也可以基于其他想法来构建模板库。</li>
+</ul>
+
+<p>总之C++并非单一的一门语言，它有很多不同的规则集。因而C++可以被视为四种主要子语言的集合，每个子语言都有自己的程序设计惯例。</p>
+
+<p>C++程序设计的惯例并非一尘不变，而是取决于你使用C++语言的哪一部分。例如，
+在基于C语言的程序设计中，基本类型传参时传值比传引用更有效率。
+然而当你接触Object-Oriented C++时会发现，传常量指针是更好的选择。
+但是你如果又碰到了STL，其中的迭代器和函数对象都是基于C语言的指针而设计的，
+这时又回到了原来的规则：传值比传引用更好。</p>
+</div>
+
+<!--        
+        <a class="more pull-right" href="/2015/11/30/2015-07-19-effective-cpp-1.html" target='_blank'>
+          全文
+          <span class="fa fa-angle-right"></span>
+        </a>
+-->        
+      </div>
+      
+    </div>
+
+    <!-- Pagination -->
+    
+    <!-- latex render begin -->
+<script type="text/x-mathjax-config">  
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$', '$'] ],
+            displayMath: [ ['$$', '$$'], ['$$$', '$$$']],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+    MathJax.Hub.Queue(function () {
+        $('body').scrollspy('refresh'); 
+    });
+</script>
+
+<script async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<!-- latex render end -->
+
+  </div>
+  <!--sidebar-->
+  <div class="col-md-4 col-lg-2 hidden-sm"> </div>
+
+    <!--
+    <div class="item-list tags">
+      <script type="text/plain" id="tag-data">
+        C++,3/STL,1/模板,1/宏,2/
+      </script>
+      <div class="tag-cloud"></div>
+    </div>
+
+
+    <div class="item-list categories">
+      <h4 class="page-header"><a class="feature-link" href="/category.html">归档</a></h4>
+      <ol class="list-unstyled">
+        
+        <li>
+        <a href="/category.html#category-c++">
+          C++ (2)
+        </a>
+        </li>
+        
+        <li>
+        <a href="/category.html#category-reading">
+          Reading (1)
+        </a>
+        </li>
+        
+      </ol>
+    </div>
+
+
+    <div class="item-list recent-titles">
+      <h4 class="page-header"><a class="feature-link" href="/">Recent</a></h4>
+      <ol class="list-unstyled">
+        
+        <li><a data-toggle="tooltip" data-placement="left" title=" 2015-11-30"
+          href="/2015/11/30/2015-07-21-effective-cpp-3.html">Item 3：尽量使用常量</a> </li>
+        
+        <li><a data-toggle="tooltip" data-placement="left" title=" 2015-11-30"
+          href="/2015/11/30/2015-07-20-effective-cpp-2.html">Item 2：避免使用define</a> </li>
+        
+        <li><a data-toggle="tooltip" data-placement="left" title=" 2015-11-30"
+          href="/2015/11/30/2015-07-19-effective-cpp-1.html">Item 1：将C++视作一系列的语言</a> </li>
+        
+      </ol>
+    </div>
+    -->    
+
+
+
+</div>
+
+<script src="/assets/lib/moment.min.js"></script>
+
+<script>
+    function update_moment(element){
+        $(element).find('[data-date]').each(function(i,e){
+            var str = moment($(e).data('date'),'YYYY-MM-DD').fromNow();
+            $(e).text(str);
+        });
+    }
+    $(function(){
+        update_moment($('body')[0]);
+    });
+</script>
+
+
+<script>
+  $(function () {
+    var ias = $.ias({
+      container: '#posts',
+      item: '.post',
+      pagination: '.pager',
+      next: '.pager .previous a'
+    });
+    ias.on('loaded', function (data, items) {
+      for (var i in items) {
+        update_moment(items[i]);
+      }
+    });
+    ias.extension(new IASSpinnerExtension({src: '/assets/img/loading.gif'}));
+    ias.extension(new IASNoneLeftExtension({
+      text: 'No more posts.',
+      html: '<div class="ias-noneleft" style="text-align: center;color:#fff">{text}</div>'
+    }));
+
+    var tagData = $('script#tag-data').html();
+    var words = tagData
+        .split('/')
+        .filter(function (tag) {
+          return tag.trim() != '';
+        })
+        .map(function (tag) {
+          var tokens = tag.split(','),
+              text = tokens[0].trim();
+          return {
+            text: text,
+            weight: parseInt(tokens[1].trim()),
+            link: '/tag.html#tag-' + text
+          };
+        })
+//        .filter(function(tag){
+//          return tag.weight > 1;
+//        })
+        .sort(function(lhs, rhs){
+          return rhs.weight - lhs.weight;
+        })
+        .slice(0, 100);
+
+    $('.tag-cloud').jQCloud(words, {
+      //shape: 'rectangular',
+      removeOverflowing: true
+    });
+  });
+</script>
+
+  </div>
+</div>
+
+<!--
+
+<div id="footer">
+  <div class="container-fluid">
+    <div class="credit nowrap">
+      <p class="text-muted" title="Copyright © 2013 Harttle. Hosted by GitHub and powered by Jekyll.">
+        Copyright © 2013
+        <a href="//harttle.github.io">Harttle</a>. Hosted by
+        <a href="//github.com/" target="_blank">GitHub</a>
+        and powered by
+        <a href="//jekyllrb.com/">Jekyll</a>.
+      </p>
+      <span class="pull-right hidden-xs follow">
+        <a href="https://www.facebook.com/harttle" target="_blank"> <i class="fa fa-facebook-square fa-lg"></i>
+        </a>
+        <a href="http://www.linkedin.com/profile/view?id=294339963" target="_blank"> <i
+            class="fa fa-linkedin-square fa-lg"></i> </a>
+        <a href="https://plus.google.com/113657098095399233141?rel=author" target="_blank"> <i
+            class="fa fa-google-plus-square fa-lg"></i> </a>
+        <a href="//github.com/harttle/harttle.github.io" target="_blank"> <i class="fa fa-github fa-lg"></i>
+        </a>
+        <a href="/feed.xml" target="_blank"> <i class="fa fa-rss-square fa-lg"></i> </a>
+      </span>
+
+    </div>
+  </div>
+</div>
+
+-->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="//oss.maxcdn.com/libs/html5shiv/3.6.2/html5shiv.js"></script>
+<script src="//v3.bootcss.com/docs-assets/js/respond.min.js"></script>
+<![endif]-->
+<script src="/assets/lib/jquery/jquery.scrollUp.min.js"></script>
+<script src="/assets/lib/jquery/jquery.lazyload.min.js" type="text/javascript"></script>
+<script src="/assets/lib/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/lib/jQCloud/jqcloud.min.js"></script>
+
+
+<script>
+  var footHeight = $('#footer').outerHeight(true);
+  $(function () {
+    
+
+      //激活工具提示
+      $('[data-toggle="tooltip"]').tooltip();
+
+      //图片延迟加载
+      $("img.lazy").lazyload({effect: "fadeIn", skip_invisible: false});	//bootstrap thumbnail img will be invisible at the begining
+
+      //回到顶部按钮
+      $.scrollUp({
+        scrollName: 'scrollUp', topDistance: '300', topSpeed: 300, animation: 'fade', animationInSpeed: 500,
+        animationOutSpeed: 500, scrollText: '', activeOverlay: false,
+      });
+
+      //页面内链接滑动效果
+      $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+      $('a.animate').click(function () {
+        if ($(this).attr('offset')) {
+          offset += parseInt($(this).attr('offset'));
+        }
+        $body.animate({scrollTop: $($(this).attr('href')).offset().top}, 500);
+        return false;
+      });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="keywords" content="C++,宏">
+  
+  
+    <meta name="description" content="尽量使用常量、枚举和内联函数，代替`#define`。">
+  
+  <meta name="author" content="terminal">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="baidu-site-verification" content="u8YJqmJmcq" />
+
+  <link type="application/atom+xml" rel="alternate" href="http://terminalworld.github.io/feed.xml" title="terminalworld" />
+  <link rel="shortcut icon" href="/assets/img/favicon.png">
+  <link rel="stylesheet" href="/assets/lib/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/lib/font-awesome/4.2.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/lib/jQCloud/jqcloud.css">
+  <link rel="stylesheet" href="/assets/css/sticky-footer-navbar.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <script src="/assets/lib/jquery/jquery-2.0.3.min.js"></script>
+
+  <title>Item 2：避免使用define</title>
+</head>
+
+<body>
+<!-- Wrap all page content here -->
+<div id="wrap">
+  <!-- Navbar -->
+  <div class="navbar navbar-default navbar-inverse global-nav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Terminalworld</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav pull-right">
+          <li id="archive"><a href="/date.html">归档</a></li>
+          <li id="timeline"><a href="/timeline.html">印迹</a></li>
+          <li id="about"><a href="/about.html">关于</a></li>
+
+<!--
+          <li id="timeline"><a href="/timeline.html">Timeline</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li id="about"><a href="/about.html">About</a></li>
+              <li id="album"><a href="/album.html">Album</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+          <form class="navbar-form navbar-right" role="search" action="http://google.com/search" method="get">
+            <input type="hidden" name="q" value="site:terminalworld.github.io">
+            <input type="text" class="form-control input-sm" placeholder="Search..." name="q">
+          </form>
+        </ul>
+
+-->        
+
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+  <!-- Begin page content -->
+  <div id="main-content">
+    <style>
+.headerbar{
+  background: white;
+  border-bottom: 2px solid #eaeaeb;
+}
+.headerbar .page-header{
+  border-bottom: 0;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+#page-content{
+  margin-bottom: 15px;
+}
+@media (max-width: 768px){
+  .header{
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .meta{
+    display: none;
+  }
+}
+</style>
+
+<div class="headerbar">
+  <div class="page-header container-fluid">
+    <h3 class="header">
+      Item 2：避免使用define <small>Effective C++笔记</small>
+    </h3>
+    <div class="meta">
+        <div class="pull-left">
+            
+
+<span class="label label-blue" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-folder-open"></span>
+    <a href="/category.html#category-c++"> C++</a>
+</span>
+
+
+            
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-C++">C++</a>
+</span>
+
+<span class="label label-yellow" style="margin-right: 10px;">
+    <span class="glyphicon glyphicon-tag"></span>
+    <a href="/tag.html#tag-%E5%AE%8F">宏</a>
+</span>
+
+
+        </div>
+        <div class="pull-right text-muted">
+            <span class="widget-date">
+
+  <a data-post-date="2015-11-30"
+     href="/date.html#date-2015-11" >
+    <i class="glyphicon glyphicon-time"></i>
+    2015-11-30
+  </a>
+</span>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div id="page-content">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+<link rel="stylesheet" href="/assets/css/vs-syntax.css">
+<style>
+  .sidebar {
+    width: 200px;
+    margin-top: 20px;
+    border: 1px solid #eaeaeb;
+  }
+
+  .sidebar ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .sidebar.affix {
+    position: fixed;
+    top: 0;
+  }
+
+  .sidebar.affix-bottom {
+    position: absolute;
+  }
+
+  .sidebar .nav{
+    font-size: 13px;
+  }
+  .sidebar .nav .nav {
+    display: none;
+  }
+
+  .sidebar .nav > .active > ul {
+    display: block;
+  }
+
+  .sidebar .nav > li > a {
+    display: block;
+    padding: 5px 15px;
+    color: #999;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar .nav .nav > li > a {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-left: 10px;
+    font-size: 90%;
+  }
+
+  .sidebar .nav .nav .nav > li > a {
+    margin-left: 20px;
+  }
+
+  .sidebar .nav .nav .nav .nav > li > a {
+    margin-left: 30px;
+  }
+
+  .sidebar .nav .nav .nav .nav .nav > li > a {
+    margin-left: 40px;
+  }
+
+  .sidebar .nav .nav .nav .nav .nav .nav > li > a {
+    margin-left: 50px;
+  }
+
+  .sidebar .nav > .active > a,
+  .sidebar .nav > :hover > a{
+    color: #333;
+    text-decoration: none;
+    border-right: 2px solid #f7565b;
+  }
+  .nav>li>a:hover, .nav>li>a:focus:hover {
+    text-decoration: none;
+    background-color: #f0f0f0;
+  }
+  .nav>li>a:focus{
+    background-color: transparent;
+  }
+  .sidenav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+  }
+
+  .MathJax * {
+    color: black !important;
+  }
+
+  .md {
+    margin-top: 20px;
+    padding: 100px;
+  }
+
+  @media (max-width: 768px) {
+    .md {
+      padding: 20px 20px 40px;
+    }
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
+
+  .copyright hr {
+    margin: 45px 0 10px!important;
+  }
+</style>
+
+<div class="row post-display">
+  <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs left">
+    <div class="sidebar"></div>
+  </div>
+  <div class="col-lg-10 col-md-9 col-sm-8 right">
+    <div class="md paper">
+      <blockquote>
+<p>Item 2: Prefer consts, enums, and inlines to #defines</p>
+</blockquote>
+
+<p>尽量使用常量、枚举和内联函数，代替<code>#define</code>。我们知道<code>#define</code>定义的宏会在编译时进行替换，属于模块化程序设计的概念。
+宏是全局的，面向对象程序设计中破坏了封装。因此在C++中尽量避免它！</p>
+
+<p>接着我们具体来看<code>#define</code>造成的问题。</p>
+
+<h1>不易理解</h1>
+
+<p>众所周知，由于预处理器会直接替换的原因，宏定义最好用括号括起来。<code>#define</code>函数将会产生出乎意料的结果：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#define MAX(a,b) a&gt;b?a:b</span>
+<span class="n">MAX</span><span class="p">(</span><span class="n">i</span><span class="o">++</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+</code></pre></div>
+<p><code>i</code>自加次数将取决于<code>j</code>的大小，然而调用者并不知情。宏的行为不易理解，本质上是因为宏并非C++语言的一部分，它只是源代码的预处理手段。</p>
+
+<h1>不利于调试</h1>
+
+<p>宏替换发生在编译时，语法检查之前。因此相关的编译错误中不会出现宏名称，我们不知道是哪个宏出了问题。例如：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#define PERSON alice</span>
+<span class="n">PERSON</span> <span class="o">=</span> <span class="n">bob</span><span class="p">;</span>
+</code></pre></div>
+<p>如果<code>alice</code>未定义，<code>PERSON=bob;</code>便会出错：<code>use of undeclared identifier &#39;alice&#39;</code>。
+然而我们可能不知道<code>alice</code>是什么东西，<code>PERSON</code>才是我们定义的“变量”。</p>
+
+<p>宏替换是在预处理过程中进行的，原则上讲编译器不知道宏的概念。然而，在现代的编译器中（例如<code>Apple LLVM version 6.0</code>），
+编译器会记录宏替换信息，在编译错误中给出宏的名称：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">test.cpp:8:5: error: use of undeclared identifier &#39;alice&#39;
+    PERSON  = bob;
+    ^
+test.cpp:4:16: note: expanded from macro &#39;PERSON&#39;
+#define PERSON alice;
+               ^
+</code></pre></div>
+<p>于是，Meyers提到的这个问题已经不存在了。然而作者的本意在于：尽量使用编译器，而不是预处理器。
+因为<code>#define</code>并不是C++语言的一部分。</p>
+
+<h1>enum 比 const 更好用</h1>
+
+<p>既然<code>#define</code>不能封装在一个类中，我们可以用<code>static const</code>来定义一个常量，并把它的作用于局限在当前类：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">C</span><span class="p">{</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">NUM</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">NUM</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>通常C++要求所有的声明都给出定义，然而数值类型（<code>char</code>, <code>int</code>, <code>long</code>）的静态常量可以只给声明。这里的<code>NUM</code>就是一个例子。
+然而，如果你想取<code>NUM</code>的地址，则会得到编译错误：</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Undefined symbols for architecture x86_64:
+  &quot;C::NUM&quot;, referenced from:
+      _main in a-88bbac.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</code></pre></div>
+<p>因此如果你要取地址，那么就给出它的定义：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">C</span><span class="p">{</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">NUM</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">NUM</span><span class="p">];</span>
+<span class="p">};</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">C</span><span class="o">::</span><span class="n">NUM</span><span class="p">;</span>
+</code></pre></div>
+<blockquote>
+<p>因为声明<code>NUM</code>时已经给定了初始值，定义时不允许再次给初始值。</p>
+</blockquote>
+
+<p>如果使用<code>enum</code>，事情会简单很多：</p>
+<div class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">C</span><span class="p">{</span>
+    <span class="k">enum</span> <span class="p">{</span> <span class="n">NUM</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">};</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">NUM</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+      <div class="copyright">
+        <hr/>
+        <p>
+          除非注明，本博客文章均为原创，转载请以链接形式标明本文地址：
+          <a href="/2015/11/30/2015-07-20-effective-cpp-2.html">http://terminalworld.github.io/2015/11/30/2015-07-20-effective-cpp-2.html</a>
+        </p>
+      </div>
+    </div>
+
+    <ul class="pager" style="margin: 30px 0 0">
+    
+    <li class="previous">
+        <a data-toggle="tooltip" data-placement="right" title="Item 1：将C++视作一系列的语言" href="/2015/11/30/2015-07-19-effective-cpp-1.html">&larr; 上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+        <a data-toggle="tooltip" data-placement="left" title="Item 3：尽量使用常量" href="/2015/11/30/2015-07-21-effective-cpp-3.html">下一篇 &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    <!--<hr style="margin: 20px 0;"/>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'harttleland'; 
+  $(function () {
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  });
+</script>
+<noscript>请 <a href="http://disqus.com/?ref_noscript">启用 JavaScript</a> 来查看评论 </noscript>
+-->
+  </div>
+</div>
+
+<script>
+  $(function () {
+    var toc = getTOC($('.post-display .right'));
+    if (toc != null) {
+      $('.sidebar').append(toc);
+
+      //sidebar affix, this offset is for sidebar position recognition
+      setTimeout(function () {
+        var $sideBar = $('.sidebar');
+        $sideBar.affix({
+          offset: {
+            top: function () {
+              var offsetTop = $sideBar.offset().top;
+              return (this.top = offsetTop - 20);
+            },
+            bottom: function () {
+              return (this.bottom = $(document).height() - $('.md').offset().top - $('.md').height());
+            }
+          }
+        });
+      }, 100);
+
+      //sidebar scroll spy
+      $('body').scrollspy({
+        target: '.sidebar',
+        offset: 10  //make sure to spy the element when scrolled to
+      });
+    }
+    else {
+      $('.post-display .right')
+          .removeClass('col-lg-10 col-md-9 col-sm-8')
+          .addClass('col-md-12');
+      $('.post-display').removeClass('row-fluid');
+      $('.post-display .left').remove();
+    }
+
+    $(window).resize(function () {
+      $('body').scrollspy('refresh');
+    });
+
+  });
+
+  //生成目录
+  function getTOC($content) {
+    var $toc = $('<ul class="nav level-0" >').addClass("nav sidenav");
+
+    var base_level = 1;
+    while ($content.find('h' + base_level).length < 1 && base_level < 7) base_level += 1;
+    if (base_level == 7) return null;
+
+    $content.find(':header').each(function (i) {
+      var $this = $(this);
+      $this.attr('id', i);
+
+      var level = parseInt(this.nodeName.substr(1));
+      var offset = level - base_level;
+
+      var li = new $('<li/>')
+          .append('<a href="#' + i + '" class="animate">' + $this.text() + '</a>')
+          .append($('<ul class="nav level-' + (offset + 1) + '"/>'));
+
+      $('<div>').append($toc).find('ul.level-' + offset + ':last').append(li);
+    });
+    // remove empty ul
+    $toc.find('ul').not(':parent').remove();
+    return $toc;
+  }
+</script>
+
+<!-- latex render begin -->
+<script type="text/x-mathjax-config">  
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$', '$'] ],
+            displayMath: [ ['$$', '$$'], ['$$$', '$$$']],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+    MathJax.Hub.Queue(function () {
+        $('body').scrollspy('refresh'); 
+    });
+</script>
+
+<script async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<!-- latex render end -->
+
+
+
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<!--
+
+<div id="footer">
+  <div class="container-fluid">
+    <div class="credit nowrap">
+      <p class="text-muted" title="Copyright © 2013 Harttle. Hosted by GitHub and powered by Jekyll.">
+        Copyright © 2013
+        <a href="//harttle.github.io">Harttle</a>. Hosted by
+        <a href="//github.com/" target="_blank">GitHub</a>
+        and powered by
+        <a href="//jekyllrb.com/">Jekyll</a>.
+      </p>
+      <span class="pull-right hidden-xs follow">
+        <a href="https://www.facebook.com/harttle" target="_blank"> <i class="fa fa-facebook-square fa-lg"></i>
+        </a>
+        <a href="http://www.linkedin.com/profile/view?id=294339963" target="_blank"> <i
+            class="fa fa-linkedin-square fa-lg"></i> </a>
+        <a href="https://plus.google.com/113657098095399233141?rel=author" target="_blank"> <i
+            class="fa fa-google-plus-square fa-lg"></i> </a>
+        <a href="//github.com/harttle/harttle.github.io" target="_blank"> <i class="fa fa-github fa-lg"></i>
+        </a>
+        <a href="/feed.xml" target="_blank"> <i class="fa fa-rss-square fa-lg"></i> </a>
+      </span>
+
+    </div>
+  </div>
+</div>
+
+-->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="//oss.maxcdn.com/libs/html5shiv/3.6.2/html5shiv.js"></script>
+<script src="//v3.bootcss.com/docs-assets/js/respond.min.js"></script>
+<![endif]-->
+<script src="/assets/lib/jquery/jquery.scrollUp.min.js"></script>
+<script src="/assets/lib/jquery/jquery.lazyload.min.js" type="text/javascript"></script>
+<script src="/assets/lib/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/lib/jQCloud/jqcloud.min.js"></script>
+
+
+<script>
+  var footHeight = $('#footer').outerHeight(true);
+  $(function () {
+    
+
+      //激活工具提示
+      $('[data-toggle="tooltip"]').tooltip();
+
+      //图片延迟加载
+      $("img.lazy").lazyload({effect: "fadeIn", skip_invisible: false});	//bootstrap thumbnail img will be invisible at the begining
+
+      //回到顶部按钮
+      $.scrollUp({
+        scrollName: 'scrollUp', topDistance: '300', topSpeed: 300, animation: 'fade', animationInSpeed: 500,
+        animationOutSpeed: 500, scrollText: '', activeOverlay: false,
+      });
+
+      //页面内链接滑动效果
+      $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+      $('a.animate').click(function () {
+        if ($(this).attr('offset')) {
+          offset += parseInt($(this).attr('offset'));
+        }
+        $body.animate({scrollTop: $($(this).attr('href')).offset().top}, 500);
+        return false;
+      });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+---
+layout: banner
+title: About
+subtitle: Time goes on. We live. We learn. 
+nav: about
+---
+
+<style>
+    .avatar{ 
+        display: inline-block;
+        margin-top: -50px;
+        margin-left: 40px;
+        position: relative;
+        z-index: 100;
+        float: right;
+        transform: rotate(10deg); -webkit-transform: rotate(10deg); -moz-transform: rotate(10deg); -ms-transform: rotate(10deg); -o-transform: rotate(10deg);
+    }
+    .avatar img{ max-height: 120px; }
+    .about-body{
+        font-size: 110%;
+        padding: 30px;
+    }
+    .interests, .thanks{ margin-top: 30px; }
+    .interests label, .thanks label{display: block;}
+    .thanks a img{ margin:10px!important; }
+    .thanks a:hover{ text-decoration: none; }
+    .thanks a img{ max-height: 50px; }
+</style>
+
+<div class="avatar">
+    <a href="#" class="thumbnail" style="padding: 7px;">
+        <img class="lazy" data-original="/assets/img/happiness.png" src="/assets/img/loading.gif" style="display: block;">
+    </a>
+</div>
+
+<div class="about-body paper-curl">
+    <div class="interests">
+        <label>Interests:</label>
+        <a class="label label-default">Linux</a> <a class="label label-info">Arch</a> <a class="label label-danger">Bash</a> <a class="label label-primary">Opensource</a> <a class="label label-warning">Algorithm</a>
+    </div>
+
+    <div class="thanks">
+        <label>Thanks:</label>
+        <a class="label label-danger" href="http://harttle.com/">harttle</a>
+        <a class="label label-success" href="http://github.com/">github</a>
+        <a class="label label-warning" href="http://jekyllrb.com/">jekyll</a>
+    </div>
+
+</div>
+

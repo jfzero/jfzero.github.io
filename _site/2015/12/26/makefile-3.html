@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   
-  <meta name="keywords" content="C++, Linux, Bash, Vim, Makefile, Pthread">
+  <meta name="keywords" content="Makefile">
   
   
-    <meta name="description" content="Time goes on. We live. We learn.">
+    <meta name="description" content="规则包括两个部分：一是依赖关系，二是生成目标的方法。">
   
   <meta name="author" content="terminal">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -23,7 +23,7 @@
 
   <script src="/assets/lib/jquery/jquery-2.0.3.min.js"></script>
 
-  <title></title>
+  <title>三、书写规则</title>
 </head>
 
 <body>
@@ -72,99 +72,55 @@
   </div>
   <!-- Begin page content -->
   <div id="main-content">
-    <link rel="stylesheet" href="/assets/css/markdown.css">
-<link rel="stylesheet" href="/assets/css/vs-syntax.css">
-<link rel="stylesheet" href="/assets/css/index.css">
-<script src="/assets/lib/jquery/jquery-ias.min.js"></script>
+    <style>
+.headerbar{
+  background: white;
+  border-bottom: 2px solid #eaeaeb;
+}
+.headerbar .page-header{
+  border-bottom: 0;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+#page-content{
+  margin-bottom: 15px;
+}
+@media (max-width: 768px){
+  .header{
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .meta{
+    display: none;
+  }
+}
+</style>
 
-<div class="row">
-
-  <div class="col-lg-2 col-md-2 hidden-sm"> </div>
-
-  <div class="col-lg-8 col-md-8"> 
-
-    <div id="posts">
-      
-      <div class="post paper">
-        <h3 class="header">
-          <a class="feature-link" href="/2015/12/29/effective-1.html">Item 1：视C++为一个语言联邦</a>
-
-          <div class="pull-right text-muted">
-            <span class="widget-date">
-
-  <a data-post-date="2015-12-29"
-     href="/date.html#date-2015-12" >
-    <i class="glyphicon glyphicon-time"></i>
-    2015-12-29
-  </a>
-</span>
-
-          </div>
-        </h3>
-        <p class="meta">
-          
+<div class="headerbar">
+  <div class="page-header container-fluid">
+    <h3 class="header">
+      三、书写规则 <small>GNU Make读书笔记</small>
+    </h3>
+    <div class="meta">
+        <div class="pull-left">
+            
 
 <span class="label label-blue" style="margin-right: 10px;">
     <span class="glyphicon glyphicon-folder-open"></span>
-    <a href="/category.html#category-c++"> C++</a>
+    <a href="/category.html#category-makefile"> Makefile</a>
 </span>
 
 
-          
+            
 
 <span class="label label-yellow" style="margin-right: 10px;">
     <span class="glyphicon glyphicon-tag"></span>
-    <a href="/tag.html#tag-C++">C++</a>
+    <a href="/tag.html#tag-Makefile">Makefile</a>
 </span>
 
 
-        </p>
-
-        <div class="md"><blockquote>
-<p>View C++ as a federation of languages</p>
-</blockquote>
-
-<p>一开始，C++只是C加上一些面向对象特性。C++最初的名字C with Classes也反映了这层血缘关系。</p>
-
-<p>随着C++逐渐成熟，现在的C++已经是一个多范型编程语言。
-一个同时支持面向过程、面向对象、函数形式、范型、元编程形式的语言。</p>
-
-<p>可以理解为它由四个次语言组成。分别是：</p>
-
-<ol>
-<li><strong>C</strong>。说到底C++还是基于C的，区块、语句、预处理器、内置数据类型、数组、指针，全都来自C。
-很多时候C++对问题的解法不过是较高级的C的解法。C++中的C成分有以下局限：没有模板、没有异常、没有重载......</li>
-<li><strong>Object-Oriented C++</strong>。C++的这部分就是C with Classes所包含的：类（构造函数和析构函数）、
-封装、继承、多态、虚函数（动态绑定）等等。</li>
-<li><strong>Template C++</strong>。这是C++的范型编程部分。templates十分强大，它们是全新的编程范型，
-即所谓的template metaprogramming（TMP，模板元编程）。</li>
-<li><strong>The STL</strong>。STL是C++的一个模板库，它优美的融合了容器、迭代器、算法和函数对象。 
-如果你想要优雅的使用STL，必须遵守它的规约。</li>
-</ol>
-
-<p>根据你使用C++的哪一部分，C++高效编程的准则会发生改变。</p>
-
-<p>比如说，</p>
-
-<p>对于内置类型（C-like）而言，pass-by-value通常比pass-by-reference更高效。
-但是当你从C part of C++转移到Object-Oriented C++，由于用户定义的构造函数和析构函数的存在，
-pass-by-reference-to-const会更高效一些。运用Template C++时更是如此，因为这时候你甚至不知道你要处理的对象的类型。
-然而一旦使用STL，你会发现迭代器和函数对象都是在C指针之上塑造出来的，pass-by-value又变得更合适。</p>
-</div>
-
-<!--        
-        <a class="more pull-right" href="/2015/12/29/effective-1.html" target='_blank'>
-          全文
-          <span class="fa fa-angle-right"></span>
-        </a>
--->        
-      </div>
-      
-      <div class="post paper">
-        <h3 class="header">
-          <a class="feature-link" href="/2015/12/26/makefile-3.html">三、书写规则</a>
-
-          <div class="pull-right text-muted">
+        </div>
+        <div class="pull-right text-muted">
             <span class="widget-date">
 
   <a data-post-date="2015-12-26"
@@ -174,28 +130,130 @@ pass-by-reference-to-const会更高效一些。运用Template C++时更是如此
   </a>
 </span>
 
-          </div>
-        </h3>
-        <p class="meta">
-          
+        </div>
+    </div>
+  </div>
+</div>
 
-<span class="label label-blue" style="margin-right: 10px;">
-    <span class="glyphicon glyphicon-folder-open"></span>
-    <a href="/category.html#category-makefile"> Makefile</a>
-</span>
+<div class="container-fluid">
+  <div id="page-content">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+<link rel="stylesheet" href="/assets/css/vs-syntax.css">
+<style>
+  .sidebar {
+    width: 200px;
+    margin-top: 20px;
+    border: 1px solid #eaeaeb;
+  }
 
+  .sidebar ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
-          
+  .sidebar.affix {
+    position: fixed;
+    top: 0;
+  }
 
-<span class="label label-yellow" style="margin-right: 10px;">
-    <span class="glyphicon glyphicon-tag"></span>
-    <a href="/tag.html#tag-Makefile">Makefile</a>
-</span>
+  .sidebar.affix-bottom {
+    position: absolute;
+  }
 
+  .sidebar .nav{
+    font-size: 13px;
+  }
+  .sidebar .nav .nav {
+    display: none;
+  }
 
-        </p>
+  .sidebar .nav > .active > ul {
+    display: block;
+  }
 
-        <div class="md"><blockquote>
+  .sidebar .nav > li > a {
+    display: block;
+    padding: 5px 15px;
+    color: #999;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar .nav .nav > li > a {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-left: 10px;
+    font-size: 90%;
+  }
+
+  .sidebar .nav .nav .nav > li > a {
+    margin-left: 20px;
+  }
+
+  .sidebar .nav .nav .nav .nav > li > a {
+    margin-left: 30px;
+  }
+
+  .sidebar .nav .nav .nav .nav .nav > li > a {
+    margin-left: 40px;
+  }
+
+  .sidebar .nav .nav .nav .nav .nav .nav > li > a {
+    margin-left: 50px;
+  }
+
+  .sidebar .nav > .active > a,
+  .sidebar .nav > :hover > a{
+    color: #333;
+    text-decoration: none;
+    border-right: 2px solid #f7565b;
+  }
+  .nav>li>a:hover, .nav>li>a:focus:hover {
+    text-decoration: none;
+    background-color: #f0f0f0;
+  }
+  .nav>li>a:focus{
+    background-color: transparent;
+  }
+  .sidenav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+  }
+
+  .MathJax * {
+    color: black !important;
+  }
+
+  .md {
+    margin-top: 20px;
+    padding: 100px;
+  }
+
+  @media (max-width: 768px) {
+    .md {
+      padding: 20px 20px 40px;
+    }
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
+
+  .copyright hr {
+    margin: 45px 0 10px!important;
+  }
+</style>
+
+<div class="row post-display">
+  <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs left">
+    <div class="sidebar"></div>
+  </div>
+  <div class="col-lg-10 col-md-9 col-sm-8 right">
+    <div class="md paper">
+      <blockquote>
 <p>规则包括两个部分：一是依赖关系，二是生成目标的方法。</p>
 </blockquote>
 
@@ -655,422 +713,119 @@ target-pattern和prereq-patterns说明了如何通过目标文件生成依赖文
 <p>参考：
 <a href="https://www.gnu.org/software/make/manual/make.pdf">GNU Make</a>
 <a href="http://blog.csdn.net/haoel/article/details/2886">跟我一起写Makefile</a></p>
-</div>
 
-<!--        
-        <a class="more pull-right" href="/2015/12/26/makefile-3.html" target='_blank'>
-          全文
-          <span class="fa fa-angle-right"></span>
-        </a>
--->        
-      </div>
-      
-      <div class="post paper">
-        <h3 class="header">
-          <a class="feature-link" href="/2015/12/25/makefile-2.html">二、书写Makefile</a>
-
-          <div class="pull-right text-muted">
-            <span class="widget-date">
-
-  <a data-post-date="2015-12-25"
-     href="/date.html#date-2015-12" >
-    <i class="glyphicon glyphicon-time"></i>
-    2015-12-25
-  </a>
-</span>
-
-          </div>
-        </h3>
-        <p class="meta">
-          
-
-<span class="label label-blue" style="margin-right: 10px;">
-    <span class="glyphicon glyphicon-folder-open"></span>
-    <a href="/category.html#category-makefile"> Makefile</a>
-</span>
-
-
-          
-
-<span class="label label-yellow" style="margin-right: 10px;">
-    <span class="glyphicon glyphicon-tag"></span>
-    <a href="/tag.html#tag-Makefile">Makefile</a>
-</span>
-
-
+      <div class="copyright">
+        <hr/>
+        <p>
+          除非注明，本博客文章均为原创，转载请以链接形式标明本文地址：
+          <a href="/2015/12/26/makefile-3.html">http://terminalworld.github.io/2015/12/26/makefile-3.html</a>
         </p>
-
-        <div class="md"><blockquote>
-<p>make在读取到Makefile后，想要编译工程需要哪些信息？</p>
-</blockquote>
-
-<h1>Makefile里有什么?</h1>
-
-<p>Makefile里包含五类东西：显式规则、隐式规则、变量定义、文件指示和注释。</p>
-
-<ol>
-<li>显式规则给出了编译所需的三个要素：target、prerequisites和recipe。</li>
-<li>隐式规则是指利用make的自动推导规则来简化Makefile。
-包括识别并依赖相同名字的C文件，给出默认的recipe来创建及更新target。</li>
-<li>变量定义类似C语言中的宏，它将变量定义为一个文本串，并拓展到后面的相应位置上。</li>
-<li>文件指示包含三部分的内容：读取别的Makefile，类似C中的include；
-根据情况使用或者忽略Makefile的一部分，类似C中的#if；
-及定义多行的命令。</li>
-<li>注释。Makefile只有行注释，注释字符和shell一样采用<code>#</code>字符。
-如果需要使用#字符，可做转义<code>\#</code>。</li>
-</ol>
-
-<p>此外，可通过<code>\</code>来分隔较长行。</p>
-
-<h1>Makefile的文件名</h1>
-
-<p>make默认会在当前目录依次查找这些文件：GNUmakefile、makefile和Makefile。并解释查找到的第一个文件。建议使用Makefile。</p>
-
-<p>此外，可以通过参数<code>-f name</code>或者<code>--file=name</code>来指定别的文件名书写Makefile。</p>
-
-<h1>引用别的Makefile</h1>
-
-<p>include指令告诉make在当前指令处先去读取别的Makefiles，然后再继续读取当前Makefile。include指令如下：</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="cp">include filenames...</span>
-</code></pre></div>
-<p>filenames可以是shell文件模式（可以包含路径和通配符）。第一个字符不能是<code>tab</code>，否则会被当成recipes处理。
-比如，当前目录下有3个.mk文件，a.mk、b.mk、c.mk，$(bar)代表bish、bash，那么如下的命令</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="cp">include foo *.mk $(bar)</span>
-</code></pre></div>
-<p>等价于</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="cp">include foo a.mk b.mk c.mk bish bash</span>
-</code></pre></div>
-<p>include指令用来包含变量和模式规则的集合，此外还可用于从源文件自动产生依赖文件。</p>
-
-<p>如果被包含的文件不是通过绝对路径给出，并且在当前目录无法找到该文件，make会从以下目录查找：</p>
-
-<ol>
-<li>通过<code>-I</code>或<code>--include-dir</code>指定的目录；</li>
-<li>如果存在以下目录<code>prefix/include</code>（一般是/usr/local/include），会按照这样的次序依次去查找该文件/usr/gnu/include，
-/usr/local/include，/usr/include。</li>
-</ol>
-
-<p>如果在如上目录中查找不到被包含的Makefile，make会产生警告信息，但是并不会报错。
-它会继续执行Makefile，一旦完成Makefile的读取，make会重试这些文件，如果还是不行，此时make报错。</p>
-
-<p>使用<code>-include</code>指令可屏蔽报错信息。为了兼容make版本，可采用<code>sinclude</code>指令，效果等同<code>-include</code>。</p>
-
-<h1>环境变量MAKEFILES</h1>
-
-<p>如果定义了环境变量MAKEFILES，那么make会把这个变量的值做一个类似include的操作。
-这个变量中的值一般是其他的Makefile，用空格分隔。该变量一般用作make的递归调用。
-但会影响到所有Makefile的使用，不建议设置。</p>
-
-<h1>Makefile的重新生成</h1>
-
-<p>Makefile文件可由别的文件重新生成，比如RCS、SCCS文件。如果Makefile文件是由这些文件生成的，
-make应当能够获取到最新的Makefile版本。</p>
-
-<p>过程如下：在读取完所有的Makefile文件后，make会尝试更新每一个Makefile文件。
-有些Makefile文件包含更新规则（或者包含在别的Makefile文件中）或者适合某些隐式更新规则，那么就会在需要的时候更新它。
-检查完所有的Makefile文件后，如果存在Makefile文件被更新，make会清空执行状态并重新读取Makefile文件。</p>
-
-<p>如果你希望一些Makefile文件不应当被重新生成，并且不希望隐式规则找到这些文件，
-或者是出于效率的考虑，可以采取一些方法去避免隐式规则。比如，书写一个显示规则，把Makefile文件作为目标，
-把相应的命令（recipe）设置为空。</p>
-
-<p>倘若Makefile采用只有命令没有依赖的双冒号规则去重新生成文件，那么这个文件每次都会被更新。
-从而导致死循环：make会不断的重新生成这些文件。为了避免这种情况，make重新生成Makefile时会忽略这类规则。</p>
-
-<p>另外如果没有通过<code>-f</code>或者<code>--file</code>参数来指定Makefile，make会尝试默认的Makefile文件名。
-此时，make无法确定该文件是否存在。如果该文件不存在，可以通过make（隐式）规则自动创建它。
-它会按照Makefile文件名的搜索规则去进行创建，直到创建成功或者尝试了所有的文件名。
-注意到如果make无法找到或者创建Makefile文件，make并不会报错。Makefile文件并不是make正确运行的前提。</p>
-
-<p>当你使用参数<code>-t</code>或者<code>--touch</code>时，肯定不希望使用旧的Makefile版本来决定创建哪个对象。
-因此在重新生成Makefile时，这些参数是没有意义的。类似的参数还有<code>-q</code>（或者<code>--qustion</code>）和<code>-n</code>（或者<code>--just-print</code>）。
-但是如果不想要重新生成Makefile，这些参数就能够帮到你了。
-比如指令<code>make -f mfile -n mfile foo</code>，它会读取到makefile文件mfile，
-然后打印出生成mfile所需的指令，及更新foo所需要的指令，但并不会执行这些指令。</p>
-
-<h1>重载另一个Makefile</h1>
-
-<p>有些情况下，存在着两个类似的Makefile。你可以在其中任一个Makefile文件中通过<code>include</code> 来引用另一个Makefile，
-从而使用另一个Makefile定义的变量和规则。但是如果两个Makefile存在相同目标，以及不同的命令，这在Makefile中是不允许的。</p>
-
-<p>假定两个Makefile文件mk1、mk2，mk1要包含mk2。我们可以在mk1中使用<code>match-anything pattern</code>
-（所有匹配模式）规则来重新生成上述的目标。</p>
-
-<p>比如，当前目录存在一个名为<strong>Makefile</strong>文件用来编译<code>foo</code>等目标，你可以编写一个名为<strong>GNUmakefile</strong>的文件如下：</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nf">foo </span><span class="o">:</span>
-    frobnicate &gt; foo
-<span class="nf">% </span><span class="o">:</span> <span class="n">force</span>
-    @<span class="k">$(</span>MAKE<span class="k">)</span> -f Makefile <span class="nv">$@</span>
-<span class="nf">force </span><span class="o">:</span> ;
-</code></pre></div>
-<p>此时，如果在当前目录输入<code>make foo</code>，make会查找到<strong>GNUmakefile</strong>，读取后执行命令<code>frobnicate &gt; foo</code>。
-如果输入<code>make bar</code>，由于make在<strong>GNUmakefile</strong>找不到bar目标，会采用模式规则中的命令
-<code>make -f Makefile bar</code>，然后make去执行名为<strong>Makefile</strong>的文件包含的更新bar的规则。</p>
-
-<p>其中<code>%</code>用来匹配任意目标，并添加了一个依赖force，用来确保目标存在的时候，命令也能被执行。
-此外，force的命令为空以防止通过隐式规则创建它，不然force也会被<code>match-anything pattern</code>
-匹配到，从而陷入死循环。</p>
-
-<h1>make是如何解析Makefile的</h1>
-
-<p>GNU make工作时分为2个阶段。</p>
-
-<p>第1个阶段如下：</p>
-
-<ol>
-<li>读取所有的Makefile文件及被包含的Makefile等</li>
-<li>初始化文件中的变量</li>
-<li>推导隐式和显式规则</li>
-<li>为所有的目标创建依赖关系链</li>
-</ol>
-
-<p>第2阶段如下：</p>
-
-<ol>
-<li>根据依赖关系，决定哪些目标需要重新生成</li>
-<li>执行生成命令</li>
-</ol>
-
-<p>两阶段过程对于理解变量和函数的展开十分重要。在第1阶段中，定义的变量被使用了，那么make会把其展开在使用的位置，
-这种是立即展开（immediate expansion）。延后展开（deferred expansion）是指make尽可能的往后拖延，
-直到这条依赖被使用时才进行展开。</p>
-
-<p>参考：
-<a href="https://www.gnu.org/software/make/manual/make.pdf">GNU Make</a>
-<a href="http://blog.csdn.net/haoel/article/details/2886">跟我一起写Makefile</a></p>
-</div>
-
-<!--        
-        <a class="more pull-right" href="/2015/12/25/makefile-2.html" target='_blank'>
-          全文
-          <span class="fa fa-angle-right"></span>
-        </a>
--->        
       </div>
-      
-      <div class="post paper">
-        <h3 class="header">
-          <a class="feature-link" href="/2015/12/12/makefile-1.html">一、Makefile简介</a>
-
-          <div class="pull-right text-muted">
-            <span class="widget-date">
-
-  <a data-post-date="2015-12-12"
-     href="/date.html#date-2015-12" >
-    <i class="glyphicon glyphicon-time"></i>
-    2015-12-12
-  </a>
-</span>
-
-          </div>
-        </h3>
-        <p class="meta">
-          
-
-<span class="label label-blue" style="margin-right: 10px;">
-    <span class="glyphicon glyphicon-folder-open"></span>
-    <a href="/category.html#category-makefile"> Makefile</a>
-</span>
-
-
-          
-
-<span class="label label-yellow" style="margin-right: 10px;">
-    <span class="glyphicon glyphicon-tag"></span>
-    <a href="/tag.html#tag-Makefile">Makefile</a>
-</span>
-
-
-        </p>
-
-        <div class="md"><blockquote>
-<p>Makefile告诉make如何编译和链接程序</p>
-</blockquote>
-
-<p>Makefile定义了一系列的规则来指定，哪些文件需要先编译，哪些文件需要后编译，哪些文件需要重新编译，及一些更复杂的操作。
-一旦写好，只需要一条<code>make</code>命令，整个工程完全自动编译，极大提高软件开发效率。</p>
-
-<h1>Makefile编译规则</h1>
-
-<p>Makefile的编译规则如下：</p>
-
-<ol>
-<li>如果这个工程没有被编译过，那么我们的所有C文件都要编译并被链接。</li>
-<li>如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。</li>
-<li>如果这个工程的头文件被修改，那么我们只需要编译引用了这几个头文件的C文件，并链接目标程序。</li>
-</ol>
-
-<p>因此，make会自动智能地根据当前文件的修改情况确定哪些文件需要编译，从而编译所需文件及链接目标程序。</p>
-
-<h1>Makefile规则</h1>
-
-<p>一个简单的Makefile具有这样的结构:</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nf">target... </span><span class="o">:</span> <span class="n">prerequisites</span>...
-    recipe
-    ...
-    ...
-</code></pre></div>
-<p>其中target是目标文件，它可以是可执行文件或者object files。此外还可以是一个标签，表示要执行的动作（如clean）。</p>
-
-<p>prerequisites是生成target所需要的文件，生成一个target一般需要多个这样的文件。</p>
-
-<p>recipe是make的执行动作，由一到多条命令组成。<strong>注意</strong>：每个recipe行须以1-多个<code>tab</code>键开始。
-可以通过设置<code>.RECIPEPREFIX</code>来使用别的前缀字符。</p>
-
-<p>如果prerequisites中有超过一个的文件比target要新的话，recipe就会被执行。这就是Makefile的规则。</p>
-
-<h1>一个示例</h1>
-
-<p>下面的这个Makefile文件描述了怎样通过8个c文件和3个头文件，产生8个object files，并继而产生可执行文件edit的过程。</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nf">edit </span><span class="o">:</span> <span class="n">main</span>.<span class="n">o</span> <span class="n">kbd</span>.<span class="n">o</span> <span class="n">command</span>.<span class="n">o</span> <span class="n">display</span>.<span class="n">o</span> \
-        <span class="n">insert</span>.<span class="n">o</span> <span class="n">search</span>.<span class="n">o</span> <span class="n">files</span>.<span class="n">o</span> <span class="n">utils</span>.<span class="n">o</span>
-        cc -o edit main.o kbd.o command.o display.o <span class="se">\</span>
-            insert.o search.o files.o utils.o
-
-<span class="nf">main.o </span><span class="o">:</span> <span class="n">main</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span>
-    cc -c main.c
-<span class="nf">kbd.o </span><span class="o">:</span> <span class="n">kbd</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">command</span>.<span class="n">h</span>
-    cc -c kbd.c
-<span class="nf">command.o </span><span class="o">:</span> <span class="n">command</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">command</span>.<span class="n">h</span>
-    cc -c command.c
-<span class="nf">dispaly.o </span><span class="o">:</span> <span class="n">dispaly</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">buffer</span>.<span class="n">h</span>
-    cc -c display.c
-<span class="nf">insert.o </span><span class="o">:</span> <span class="n">insert</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">buffer</span>.<span class="n">h</span>
-    cc -c insert.c
-<span class="nf">search.o </span><span class="o">:</span> <span class="n">search</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">buffer</span>.<span class="n">h</span>
-    cc -c search.c
-<span class="nf">files.o </span><span class="o">:</span> <span class="n">files</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">command</span>.<span class="n">h</span> <span class="n">buffer</span>.<span class="n">h</span>
-    cc -c files.c
-<span class="nf">utils.o </span><span class="o">:</span> <span class="n">utils</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span>
-    cc -c utils.c
-<span class="nf">clean</span><span class="o">:</span>
-    rm edit main.o kbd.o command.o display.o <span class="se">\</span>
-        insert.o search.o files.o utils.o
-</code></pre></div>
-<p>其中\用来表示换行。</p>
-
-<p>把这些内容保存在Makefile或者makefile文件中后，只需在当前目录输入<code>make</code>就能生成可执行文件edit。</p>
-
-<p>输入<code>make clean</code>可删除执行文件及所有的中间文件。</p>
-
-<p>在这个示例中，target包括可执行文件edit和object files。prerequisites包括c文件和头文件。
-此外，object file可以是target，也可以是prerequisites。</p>
-
-<p>这里clean并非一个文件，它只是一个行为的名称而已。注意到clean既不是一个prerequisites，也不依赖任何prerequisites。
-这类规则的目的就是为了执行特定的命令。比如程序的打包、备份等。</p>
-
-<h1>make是如何工作的</h1>
-
-<p>默认情况下，make从第一个target开始（如上例的edit）作为最终的目标文件。默认目标文件可通过<code>.DEFAULT_GOAL</code>进行改写。</p>
-
-<p>当输入<code>make</code>后：</p>
-
-<ol>
-<li>make读取当前目录的Makefile或者makefile文件。</li>
-<li>如果读取到，make查找第一个target文件(edit)并作为最终的目标文件。</li>
-<li>如果edit文件不存在，或者edit依赖的后面的.o文件的修改时间比edit这个文件要新，那么执行后面定义的命令来生成edit文件。</li>
-<li>按照同样的规则处理edit依赖的.o文件。</li>
-<li>直到C文件及头文件。这时make通过C文件及头文件生成.o文件，然后一层层通过.o文件生成可执行文件edit。</li>
-</ol>
-
-<p>因此，如果我们修改了文件insert.c，然后执行make，make会编译文件并更新insert.o，然后链接edit。</p>
-
-<h1>变量可以精简Makefile</h1>
-
-<p>上例的这些语句中，object files被重复2次：</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nf">edit </span><span class="o">:</span> <span class="n">main</span>.<span class="n">o</span> <span class="n">kbd</span>.<span class="n">o</span> <span class="n">command</span>.<span class="n">o</span> <span class="n">display</span>.<span class="n">o</span> \
-        <span class="n">insert</span>.<span class="n">o</span> <span class="n">search</span>.<span class="n">o</span> <span class="n">files</span>.<span class="n">o</span> <span class="n">utils</span>.<span class="n">o</span>
-        cc -o edit main.o kbd.o command.o display.o <span class="se">\</span>
-            insert.o search.o files.o utils.o
-</code></pre></div>
-<p>这样每次新加一个object file，就需要修改2个地方。
-随着Makefile文件变得越来越复杂，可维护性就会越来越差。Makefile变量的使用可以精简Makefile进而提高可维护性。
-可以定义objects、OBJECTS、objs、OBJS等来表示列出的objects files。</p>
-
-<p>比如在Makefile的一开始定义这样的变量,</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nv">objects</span> <span class="o">=</span> main.o kbd.o command.o display.o <span class="se">\</span>
-            insert.o search.o files.o utils.o
-</code></pre></div>
-<p>于是就能在Makefile中通过<code>$(objects)</code>来使用这个变量了。</p>
-
-<h1>让make自动推导</h1>
-
-<p>make会根据这样的隐式规则编译C文件：</p>
-
-<p>在更新.o文件时，make会自动识别相关C文件，把它加到prerequisites列表中，并通过<code>cc -c</code>命令进行编译。
-因此我们无需添加相关recipes就可以自动编译相关C文件。</p>
-
-<p>在使用了变量及自动推导后，如上的示例可简化成这个样子：</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nv">objects</span> <span class="o">=</span> main.o kbd.o command.o display.o <span class="se">\</span>
-            insert.o search.o files.o utils.o
-
-<span class="nf">edit </span><span class="o">:</span> <span class="k">$(</span><span class="nv">objects</span><span class="k">)</span>
-        cc -o edit <span class="k">$(</span>objects<span class="k">)</span>
-
-<span class="nf">main.o </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span>
-<span class="nf">kbd.o </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">command</span>.<span class="n">h</span>
-<span class="nf">command.o </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">command</span>.<span class="n">h</span>
-<span class="nf">display.o </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">buffer</span>.<span class="n">h</span>
-<span class="nf">insert.o </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">buffer</span>.<span class="n">h</span>
-<span class="nf">search.o </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">buffer</span>.<span class="n">h</span>
-<span class="nf">file.o </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span> <span class="n">buffer</span>.<span class="n">h</span> <span class="n">command</span>.<span class="n">h</span>
-<span class="nf">utils.o </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span>
-
-<span class="nf">.PHONY </span><span class="o">:</span> <span class="n">clean</span>
-<span class="nf">clean </span><span class="o">:</span> 
-        rm edit <span class="k">$(</span>objects<span class="k">)</span>
-</code></pre></div>
-<p><code>.PHONY</code>表示clean是一个伪目标文件。</p>
-
-<h1>另类风格的Makefile</h1>
-
-<p>我们先上Makefile，风格看起来是这样的：</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nv">objects</span> <span class="o">=</span> main.o kbd.o command.o display.o <span class="se">\</span>
-            insert.o search.o files.o utils.o
-
-<span class="nf">edit </span><span class="o">:</span> <span class="k">$(</span><span class="nv">objects</span><span class="k">)</span>
-        cc -o edit <span class="k">$(</span>objects<span class="k">)</span>
-
-<span class="nf">$(objects) </span><span class="o">:</span> <span class="n">defs</span>.<span class="n">h</span>
-<span class="nf">kbd.o command.o files.o </span><span class="o">:</span> <span class="n">command</span>.<span class="n">h</span>
-<span class="nf">display.o insert.o search.o files.o </span><span class="o">:</span> <span class="n">buffer</span>.<span class="n">h</span>
-</code></pre></div>
-<p>想必大家都能看出来，上面是按照target进行分类，这个则是按照prerequisites分类。
-这种风格的优点是代码看起来紧凑些，缺点则是条理性较差。</p>
-
-<h1>清空目标文件的规则</h1>
-
-<p>Makefile也会做一些编译外的事情，如删除可执行文件与object files。</p>
-
-<p>一般的风格是：</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nf">clean </span><span class="o">:</span> 
-        rm edit <span class="k">$(</span>objects<span class="k">)</span>
-</code></pre></div>
-<p>或者是能处理意想不到情况，更符合规范的写法：</p>
-<div class="highlight"><pre><code class="language-makefile" data-lang="makefile"><span class="nf">.PHONY </span><span class="o">:</span> <span class="n">clean</span>
-<span class="nf">clean </span><span class="o">:</span> 
-        -rm edit <span class="k">$(</span>objects<span class="k">)</span>
-</code></pre></div>
-<p><code>.PHONY</code>表示clean是一个伪目标，在rm前加一个减号的意思是某些文件出现问题时也会继续执行。此外，clean一般放在文件的最后。</p>
-
-<p>参考：
-<a href="https://www.gnu.org/software/make/manual/make.pdf">GNU Make</a> 
-<a href="http://blog.csdn.net/haoel/article/details/2886">跟我一起写Makefile</a> </p>
-</div>
-
-<!--        
-        <a class="more pull-right" href="/2015/12/12/makefile-1.html" target='_blank'>
-          全文
-          <span class="fa fa-angle-right"></span>
-        </a>
--->        
-      </div>
-      
     </div>
 
-    <!-- Pagination -->
+    <ul class="pager" style="margin: 30px 0 0">
     
-    <!-- latex render begin -->
+    <li class="previous">
+        <a data-toggle="tooltip" data-placement="right" title="二、书写Makefile" href="/2015/12/25/makefile-2.html">&larr; 上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+        <a data-toggle="tooltip" data-placement="left" title="Item 1：视C++为一个语言联邦" href="/2015/12/29/effective-1.html">下一篇 &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    <!--<hr style="margin: 20px 0;"/>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'harttleland'; 
+  $(function () {
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  });
+</script>
+<noscript>请 <a href="http://disqus.com/?ref_noscript">启用 JavaScript</a> 来查看评论 </noscript>
+-->
+  </div>
+</div>
+
+<script>
+  $(function () {
+    var toc = getTOC($('.post-display .right'));
+    if (toc != null) {
+      $('.sidebar').append(toc);
+
+      //sidebar affix, this offset is for sidebar position recognition
+      setTimeout(function () {
+        var $sideBar = $('.sidebar');
+        $sideBar.affix({
+          offset: {
+            top: function () {
+              var offsetTop = $sideBar.offset().top;
+              return (this.top = offsetTop - 20);
+            },
+            bottom: function () {
+              return (this.bottom = $(document).height() - $('.md').offset().top - $('.md').height());
+            }
+          }
+        });
+      }, 100);
+
+      //sidebar scroll spy
+      $('body').scrollspy({
+        target: '.sidebar',
+        offset: 10  //make sure to spy the element when scrolled to
+      });
+    }
+    else {
+      $('.post-display .right')
+          .removeClass('col-lg-10 col-md-9 col-sm-8')
+          .addClass('col-md-12');
+      $('.post-display').removeClass('row-fluid');
+      $('.post-display .left').remove();
+    }
+
+    $(window).resize(function () {
+      $('body').scrollspy('refresh');
+    });
+
+  });
+
+  //生成目录
+  function getTOC($content) {
+    var $toc = $('<ul class="nav level-0" >').addClass("nav sidenav");
+
+    var base_level = 1;
+    while ($content.find('h' + base_level).length < 1 && base_level < 7) base_level += 1;
+    if (base_level == 7) return null;
+
+    $content.find(':header').each(function (i) {
+      var $this = $(this);
+      $this.attr('id', i);
+
+      var level = parseInt(this.nodeName.substr(1));
+      var offset = level - base_level;
+
+      var li = new $('<li/>')
+          .append('<a href="#' + i + '" class="animate">' + $this.text() + '</a>')
+          .append($('<ul class="nav level-' + (offset + 1) + '"/>'));
+
+      $('<div>').append($toc).find('ul.level-' + offset + ':last').append(li);
+    });
+    // remove empty ul
+    $toc.find('ul').not(':parent').remove();
+    return $toc;
+  }
+</script>
+
+<!-- latex render begin -->
 <script type="text/x-mathjax-config">  
     MathJax.Hub.Config({
         tex2jax: {
@@ -1088,126 +843,11 @@ make应当能够获取到最新的Makefile版本。</p>
 <script async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 <!-- latex render end -->
 
+
+
   </div>
-  <!--sidebar-->
-  <div class="col-lg-2 col-md-2 hidden-sm"> </div>
-
-    <!--
-    <div class="item-list tags">
-      <script type="text/plain" id="tag-data">
-        Makefile,3/C++,1/
-      </script>
-      <div class="tag-cloud"></div>
-    </div>
-
-
-    <div class="item-list categories">
-      <h4 class="page-header"><a class="feature-link" href="/category.html">归档</a></h4>
-      <ol class="list-unstyled">
-        
-        <li>
-        <a href="/category.html#category-makefile">
-          Makefile (3)
-        </a>
-        </li>
-        
-        <li>
-        <a href="/category.html#category-c++">
-          C++ (1)
-        </a>
-        </li>
-        
-      </ol>
-    </div>
-
-
-    <div class="item-list recent-titles">
-      <h4 class="page-header"><a class="feature-link" href="/">Recent</a></h4>
-      <ol class="list-unstyled">
-        
-        <li><a data-toggle="tooltip" data-placement="left" title=" 2015-12-29"
-          href="/2015/12/29/effective-1.html">Item 1：视C++为一个语言联邦</a> </li>
-        
-        <li><a data-toggle="tooltip" data-placement="left" title=" 2015-12-26"
-          href="/2015/12/26/makefile-3.html">三、书写规则</a> </li>
-        
-        <li><a data-toggle="tooltip" data-placement="left" title=" 2015-12-25"
-          href="/2015/12/25/makefile-2.html">二、书写Makefile</a> </li>
-        
-        <li><a data-toggle="tooltip" data-placement="left" title=" 2015-12-12"
-          href="/2015/12/12/makefile-1.html">一、Makefile简介</a> </li>
-        
-      </ol>
-    </div>
-    -->    
-
-
-
 </div>
 
-<script src="/assets/lib/moment.min.js"></script>
-
-<script>
-    function update_moment(element){
-        $(element).find('[data-date]').each(function(i,e){
-            var str = moment($(e).data('date'),'YYYY-MM-DD').fromNow();
-            $(e).text(str);
-        });
-    }
-    $(function(){
-        update_moment($('body')[0]);
-    });
-</script>
-
-
-<script>
-  $(function () {
-    var ias = $.ias({
-      container: '#posts',
-      item: '.post',
-      pagination: '.pager',
-      next: '.pager .previous a'
-    });
-    ias.on('loaded', function (data, items) {
-      for (var i in items) {
-        update_moment(items[i]);
-      }
-    });
-    ias.extension(new IASSpinnerExtension({src: '/assets/img/loading.gif'}));
-    ias.extension(new IASNoneLeftExtension({
-      text: 'No more posts.',
-      html: '<div class="ias-noneleft" style="text-align: center;color:#fff">{text}</div>'
-    }));
-
-    var tagData = $('script#tag-data').html();
-    var words = tagData
-        .split('/')
-        .filter(function (tag) {
-          return tag.trim() != '';
-        })
-        .map(function (tag) {
-          var tokens = tag.split(','),
-              text = tokens[0].trim();
-          return {
-            text: text,
-            weight: parseInt(tokens[1].trim()),
-            link: '/tag.html#tag-' + text
-          };
-        })
-//        .filter(function(tag){
-//          return tag.weight > 1;
-//        })
-        .sort(function(lhs, rhs){
-          return rhs.weight - lhs.weight;
-        })
-        .slice(0, 100);
-
-    $('.tag-cloud').jQCloud(words, {
-      //shape: 'rectangular',
-      removeOverflowing: true
-    });
-  });
-</script>
 
   </div>
 </div>

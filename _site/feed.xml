@@ -3,275 +3,849 @@
 <generator uri="http://jekyllrb.com" version="2.4.0">Jekyll</generator>
 <link href="http://terminalworld.github.io/feed.xml" rel="self" type="application/atom+xml" />
 <link href="http://terminalworld.github.io/" rel="alternate" type="text/html" />
-<updated>2015-11-30T17:52:21+08:00</updated>
+<updated>2016-01-04T15:07:18+08:00</updated>
 <id>http://terminalworld.github.io/</id>
 <title>terminalworld</title>
 <subtitle>Time goes on. We live. We learn.</subtitle>
 <entry>
-<title>Item 3：尽量使用常量</title>
-<link href="http://terminalworld.github.io/2015/11/30/2015-07-21-effective-cpp-3.html" rel="alternate" type="text/html" title="Item 3：尽量使用常量" />
-<published>2015-11-30T17:23:44+08:00</published>
-<updated>2015-11-30T17:23:44+08:00</updated>
-<id>http://terminalworld.github.io/2015/11/30/2015-07-21-effective-cpp-3</id>
-<content type="html" xml:base="http://terminalworld.github.io/2015/11/30/2015-07-21-effective-cpp-3.html">&lt;blockquote&gt;
-&lt;p&gt;Item 3: Use const whenever possible&lt;/p&gt;
+<title>Item 1：视C++为一个语言联邦</title>
+<link href="http://terminalworld.github.io/2015/12/29/effective-1.html" rel="alternate" type="text/html" title="Item 1：视C++为一个语言联邦" />
+<published>2015-12-29T00:00:00+08:00</published>
+<updated>2015-12-29T00:00:00+08:00</updated>
+<id>http://terminalworld.github.io/2015/12/29/effective-1</id>
+<content type="html" xml:base="http://terminalworld.github.io/2015/12/29/effective-1.html">&lt;blockquote&gt;
+&lt;p&gt;View C++ as a federation of languages&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;尽量使用常量。不需多说，这是防卫型（defensive）程序设计的原则，
-尽量使用常量限定符，从而防止客户错误地使用你的代码。&lt;/p&gt;
+&lt;p&gt;一开始，C++只是C加上一些面向对象特性。C++最初的名字C with Classes也反映了这层血缘关系。&lt;/p&gt;
 
-&lt;h1&gt;常量的声明&lt;/h1&gt;
+&lt;p&gt;随着C++逐渐成熟，现在的C++已经是一个多范型编程语言。
+一个同时支持面向过程、面向对象、函数形式、范型、元编程形式的语言。&lt;/p&gt;
 
-&lt;p&gt;总结一下各种指针的声明方式吧：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Hello&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;p&gt;可以理解为它由四个次语言组成。分别是：&lt;/p&gt;
 
-&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;// non-const pointer, non-const data&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;              &lt;span class=&quot;c1&quot;&gt;// non-const pointer, const data&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;// const pointer, non-const data&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;       &lt;span class=&quot;c1&quot;&gt;// const pointer, const data &lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code&gt;const&lt;/code&gt;出现在&lt;code&gt;*&lt;/code&gt;左边则被指向的对象是常量，出现在&lt;code&gt;*&lt;/code&gt;右边则指针本身是常量。
-然而对于常量对象，有人把&lt;code&gt;const&lt;/code&gt;放在类型左边，有人把&lt;code&gt;const&lt;/code&gt;放在&lt;code&gt;*&lt;/code&gt;左边，都是可以的：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;f1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Widget&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// f1 takes a pointer to a constant Widget object&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;f2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Widget&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// 等效&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;STL的iterator也是类似的，如果你希望指针本身是常量，可以声明&lt;code&gt;const iterator&lt;/code&gt;；
-如果你希望指针指向的对象是常量，请使用&lt;code&gt;const_iterator&lt;/code&gt;：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// iter acts like a T* const&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterator&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;                              &lt;span class=&quot;c1&quot;&gt;// OK, changes what iter points to&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;                                  &lt;span class=&quot;c1&quot;&gt;// error! iter is const&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;//cIter acts like a const T*&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;const_iterator&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cIter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cIter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;                             &lt;span class=&quot;c1&quot;&gt;// error! *cIter is const&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cIter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;                                 &lt;span class=&quot;c1&quot;&gt;// fine, changes cIter&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;返回值声明为常量可以防止你的代码被错误地使用，例如实数相加的方法：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Rational&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Rational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Rational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;当用户错误地使用&lt;code&gt;=&lt;/code&gt;时：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;n&quot;&gt;Rational&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;编译器便会给出错误：不可赋值给常量。&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h1&gt;常量成员方法&lt;/h1&gt;
-
-&lt;p&gt;声明常量成员函数是为了确定哪些方法可以通过常量对象来访问，另外一方面让接口更加易懂：
-很容易知道哪些方法会改变对象，哪些不会。&lt;/p&gt;
-
-&lt;p&gt;成员方法添加常量限定符属于函数重载。常量对象只能调用常量方法，
-非常量对象优先调用非常量方法，如不存在会调用同名常量方法。
-常量成员函数也可以在类声明外定义，但声明和定义都需要指定&lt;code&gt;const&lt;/code&gt;关键字。
-例如：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TextBlock&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// operator[] for&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;                           &lt;span class=&quot;c1&quot;&gt;// const objects&lt;/span&gt;
-
-  &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;               &lt;span class=&quot;c1&quot;&gt;// operator[] for&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;                           &lt;span class=&quot;c1&quot;&gt;// non-const objects&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;private&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-   &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;TextBlock&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;tb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Hello&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TextBlock&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ctb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;World&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;tb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;// fine — writing a non-const TextBlock&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ctb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;            &lt;span class=&quot;c1&quot;&gt;// error! — writing a const TextBlock&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h1&gt;比特常量和逻辑常量&lt;/h1&gt;
-
-&lt;p&gt;&lt;strong&gt;比特常量&lt;/strong&gt;（bitwise constness）：如果一个方法不改变对象的任何非静态变量，那么该方法是常量方法。
-比特常量是C++定义常量的方式，然而一个满足比特常量的方法，却不见得表现得像个常量，
-尤其是数据成员是指针时：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TextBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[](&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TextBlock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;因为&lt;code&gt;char* text&lt;/code&gt;并未发生改变，所以编译器认为我们的操作都是合法的。
-然而我们定义了一个常量对象&lt;code&gt;tb&lt;/code&gt;，只调用它的常量方法，却能够修改&lt;code&gt;tb&lt;/code&gt;的数据。
-对数据的操作甚至可以放在&lt;code&gt;operator[]()&lt;/code&gt;方法里面。&lt;/p&gt;
-
-&lt;p&gt;这一点不合理之处引发了&lt;strong&gt;逻辑常量&lt;/strong&gt;（logical constness）的讨论：常量方法可以修改数据成员，
-只要客户检测不到变化就可以。可是常量方法修改数据成员C++编译器不会同意的！这时我们需要&lt;code&gt;mutable&lt;/code&gt;限定符：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CTextBlock&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;private&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;mutable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;textLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;// these data members may&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;mutable&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lengthIsValid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;// always be modified&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;                                     
-
-&lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CTextBlock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lengthIsValid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;textLength&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strlen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;lengthIsValid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;          
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;textLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h1&gt;避免常量/非常量方法的重复&lt;/h1&gt;
-
-&lt;p&gt;通常我们需要定义成对的常量和普通方法，只是返回值的修改权限不同。
-当然我们不希望重新编写方法的逻辑。最先想到的方法是常量方法调用普通方法，然而这是C++语法不允许的。
-于是我们只能用普通方法调用常量方法，并做相应的类型转换：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[](&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[](&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const_cast&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;static_cast&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TextBlock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;   
-    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;code&gt;*this&lt;/code&gt;的类型是&lt;code&gt;TextBlock&lt;/code&gt;，先把它强制隐式转换为&lt;code&gt;const TextBlock&lt;/code&gt;，这样我们才能调用那个常量方法。&lt;/li&gt;
-&lt;li&gt;调用&lt;code&gt;operator[](size_t) const&lt;/code&gt;，得到的返回值类型为&lt;code&gt;const char&amp;amp;&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;把返回值去掉&lt;code&gt;const&lt;/code&gt;属性，得到类型为&lt;code&gt;char&amp;amp;&lt;/code&gt;的返回值。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;C&lt;/strong&gt;。说到底C++还是基于C的，区块、语句、预处理器、内置数据类型、数组、指针，全都来自C。
+很多时候C++对问题的解法不过是较高级的C的解法。C++中的C成分有以下局限：没有模板、没有异常、没有重载......&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Object-Oriented C++&lt;/strong&gt;。C++的这部分就是C with Classes所包含的：类（构造函数和析构函数）、
+封装、继承、多态、虚函数（动态绑定）等等。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Template C++&lt;/strong&gt;。这是C++的范型编程部分。templates十分强大，它们是全新的编程范型，
+即所谓的template metaprogramming（TMP，模板元编程）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The STL&lt;/strong&gt;。STL是C++的一个模板库，它优美的融合了容器、迭代器、算法和函数对象。 
+如果你想要优雅的使用STL，必须遵守它的规约。&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;根据你使用C++的哪一部分，C++高效编程的准则会发生改变。&lt;/p&gt;
+
+&lt;p&gt;比如说，&lt;/p&gt;
+
+&lt;p&gt;对于内置类型（C-like）而言，pass-by-value通常比pass-by-reference更高效。
+但是当你从C part of C++转移到Object-Oriented C++，由于用户定义的构造函数和析构函数的存在，
+pass-by-reference-to-const会更高效一些。运用Template C++时更是如此，因为这时候你甚至不知道你要处理的对象的类型。
+然而一旦使用STL，你会发现迭代器和函数对象都是在C指针之上塑造出来的，pass-by-value又变得更合适。&lt;/p&gt;
 </content>
 <category term="C++" />
-<category term="宏" />
-<summary>尽量使用常量，以逻辑常量的方式编写常量方法，使用普通方法调用常量方法可避免代码重复。</summary>
+<summary>视C++为一个语言联邦</summary>
 </entry>
 <entry>
-<title>Item 2：避免使用define</title>
-<link href="http://terminalworld.github.io/2015/11/30/2015-07-20-effective-cpp-2.html" rel="alternate" type="text/html" title="Item 2：避免使用define" />
-<published>2015-11-30T17:23:44+08:00</published>
-<updated>2015-11-30T17:23:44+08:00</updated>
-<id>http://terminalworld.github.io/2015/11/30/2015-07-20-effective-cpp-2</id>
-<content type="html" xml:base="http://terminalworld.github.io/2015/11/30/2015-07-20-effective-cpp-2.html">&lt;blockquote&gt;
-&lt;p&gt;Item 2: Prefer consts, enums, and inlines to #defines&lt;/p&gt;
+<title>三、书写规则</title>
+<link href="http://terminalworld.github.io/2015/12/26/makefile-3.html" rel="alternate" type="text/html" title="三、书写规则" />
+<published>2015-12-26T00:00:00+08:00</published>
+<updated>2015-12-26T00:00:00+08:00</updated>
+<id>http://terminalworld.github.io/2015/12/26/makefile-3</id>
+<content type="html" xml:base="http://terminalworld.github.io/2015/12/26/makefile-3.html">&lt;blockquote&gt;
+&lt;p&gt;规则包括两个部分：一是依赖关系，二是生成目标的方法。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;尽量使用常量、枚举和内联函数，代替&lt;code&gt;#define&lt;/code&gt;。我们知道&lt;code&gt;#define&lt;/code&gt;定义的宏会在编译时进行替换，属于模块化程序设计的概念。
-宏是全局的，面向对象程序设计中破坏了封装。因此在C++中尽量避免它！&lt;/p&gt;
+&lt;p&gt;Makefile的规则是用来生成目标（target）的，它包括两部分：目标的依赖关系（prerequisites），
+创建和更新目标所需要的命令（recipe）。&lt;/p&gt;
 
-&lt;p&gt;接着我们具体来看&lt;code&gt;#define&lt;/code&gt;造成的问题。&lt;/p&gt;
+&lt;p&gt;规则的顺序并不重要，但有一个例外，那就是Makefile的最终目标。
+其他的目标都是由最终目标连带出来的，所以一定要知道最终目标。
+最终目标只能有一个，默认是第一条规则的第一个目标。然而也有两个例外：&lt;/p&gt;
 
-&lt;h1&gt;不易理解&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;目标以.开头，且后面跟的字符不是/（如.SECONDEXPANSION）。&lt;/li&gt;
+&lt;li&gt;模式匹配所定义的目标。&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;p&gt;众所周知，由于预处理器会直接替换的原因，宏定义最好用括号括起来。&lt;code&gt;#define&lt;/code&gt;函数将会产生出乎意料的结果：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#define MAX(a,b) a&amp;gt;b?a:b&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;MAX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;p&gt;这两种情况下的目标不会被当做最终目标。&lt;/p&gt;
+
+&lt;h1&gt;规则的语法&lt;/h1&gt;
+
+&lt;p&gt;一般是这样子的&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;targets &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prerequisites&lt;/span&gt;
+    recipe
+    ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code&gt;i&lt;/code&gt;自加次数将取决于&lt;code&gt;j&lt;/code&gt;的大小，然而调用者并不知情。宏的行为不易理解，本质上是因为宏并非C++语言的一部分，它只是源代码的预处理手段。&lt;/p&gt;
-
-&lt;h1&gt;不利于调试&lt;/h1&gt;
-
-&lt;p&gt;宏替换发生在编译时，语法检查之前。因此相关的编译错误中不会出现宏名称，我们不知道是哪个宏出了问题。例如：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#define PERSON alice&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;PERSON&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;p&gt;或者这样&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;targets &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prerequisites&lt;/span&gt; ; &lt;span class=&quot;n&quot;&gt;recipe&lt;/span&gt;
+    recipe
+    ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;如果&lt;code&gt;alice&lt;/code&gt;未定义，&lt;code&gt;PERSON=bob;&lt;/code&gt;便会出错：&lt;code&gt;use of undeclared identifier &amp;#39;alice&amp;#39;&lt;/code&gt;。
-然而我们可能不知道&lt;code&gt;alice&lt;/code&gt;是什么东西，&lt;code&gt;PERSON&lt;/code&gt;才是我们定义的“变量”。&lt;/p&gt;
+&lt;p&gt;目标可以是文件名或者标签（clean），由空格隔开，并支持通配符。
+目标文件一般只有一个，也有可能是多个文件。&lt;/p&gt;
 
-&lt;p&gt;宏替换是在预处理过程中进行的，原则上讲编译器不知道宏的概念。然而，在现代的编译器中（例如&lt;code&gt;Apple LLVM version 6.0&lt;/code&gt;），
-编译器会记录宏替换信息，在编译错误中给出宏的名称：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;test.cpp:8:5: error: use of undeclared identifier &amp;#39;alice&amp;#39;
-    PERSON  = bob;
-    ^
-test.cpp:4:16: note: expanded from macro &amp;#39;PERSON&amp;#39;
-#define PERSON alice;
-               ^
+&lt;p&gt;recipe可以和target放在同一行，也可以放在不同行。同行时用&lt;code&gt;;&lt;/code&gt;隔开，不同行时recipe需以&lt;code&gt;tab&lt;/code&gt;键开头。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$&lt;/code&gt;符号一般用来解析变量，可采用&lt;code&gt;$$&lt;/code&gt;这种方式解析出一个&lt;code&gt;$&lt;/code&gt;符号。
+&lt;code&gt;\&lt;/code&gt;符号用来做换行符。&lt;/p&gt;
+
+&lt;p&gt;书写规则告诉make两件事情：&lt;strong&gt;目标文件何时过时，以及如何更新目标文件。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;当目标文件不存在或者存在依赖文件比目标文件新时，目标被认为是&amp;quot;过时的&amp;quot;。make通过执行recipe来更新目标文件。
+一般来说，make通过UNIX的标准shell，也就是/bin/sh来执行命令。&lt;/p&gt;
+
+&lt;h1&gt;依赖的类型&lt;/h1&gt;
+
+&lt;p&gt;prerequisites分为两种类型。一种是我们上面所说的常规依赖，当依赖文件比目标文件新时，目标被认为是过时的。
+还有另外一种依赖叫做&lt;code&gt;order-only prerequisites&lt;/code&gt;，在目标文件存在时，即使这类依赖文件比目标文件新，
+目标也不会被当做是过时的，从而make并不会去更新目标文件。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;target &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;normal&lt;/span&gt;-&lt;span class=&quot;n&quot;&gt;prerequisites&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;order&lt;/span&gt;-&lt;span class=&quot;n&quot;&gt;only&lt;/span&gt;-&lt;span class=&quot;n&quot;&gt;prerequisites&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;于是，Meyers提到的这个问题已经不存在了。然而作者的本意在于：尽量使用编译器，而不是预处理器。
-因为&lt;code&gt;#define&lt;/code&gt;并不是C++语言的一部分。&lt;/p&gt;
+&lt;p&gt;常规依赖和&lt;code&gt;order-only prerequisites&lt;/code&gt;通过管道符号&lt;code&gt;|&lt;/code&gt;区分，左侧的是常规依赖，右侧的是&lt;code&gt;order-only prerequisites&lt;/code&gt;。
+常规依赖可以为空，如果一个依赖同时出现在两种依赖类型中，会被当成常规依赖。&lt;/p&gt;
 
-&lt;h1&gt;enum 比 const 更好用&lt;/h1&gt;
-
-&lt;p&gt;既然&lt;code&gt;#define&lt;/code&gt;不能封装在一个类中，我们可以用&lt;code&gt;static const&lt;/code&gt;来定义一个常量，并把它的作用于局限在当前类：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NUM&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;p&gt;比如，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;LIBS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; libtest.a
+&lt;span class=&quot;nf&quot;&gt;foo &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LIBS&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CC&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CFLAGS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$&amp;lt;&lt;/span&gt; -o &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;LIBS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;通常C++要求所有的声明都给出定义，然而数值类型（&lt;code&gt;char&lt;/code&gt;, &lt;code&gt;int&lt;/code&gt;, &lt;code&gt;long&lt;/code&gt;）的静态常量可以只给声明。这里的&lt;code&gt;NUM&lt;/code&gt;就是一个例子。
-然而，如果你想取&lt;code&gt;NUM&lt;/code&gt;的地址，则会得到编译错误：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Undefined symbols for architecture x86_64:
-  &amp;quot;C::NUM&amp;quot;, referenced from:
-      _main in a-88bbac.o
-ld: symbol(s) not found for architecture x86_64
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+&lt;p&gt;make在执行时，假定foo已存在。如果foo.c被修改，那么将重新生成foo。
+如果libtest.a被修改，foo并不会被重新生成。$(LIBS)只有在foo不存在的时候，才参与规则的执行。&lt;/p&gt;
+
+&lt;p&gt;另外，&lt;code&gt;$&amp;lt;&lt;/code&gt;代表依赖的第一个文件，&lt;code&gt;$@&lt;/code&gt;代表目标文件，下面会细细说来。&lt;/p&gt;
+
+&lt;h1&gt;通配符的使用&lt;/h1&gt;
+
+&lt;p&gt;通过使用通配符，我们可以用一个文件名来表示一类文件。make支持三个通配符&lt;code&gt;*&lt;/code&gt;、&lt;code&gt;?&lt;/code&gt;、&lt;code&gt;[...]&lt;/code&gt;。
+这些和Bourne shell中是一样的。此外，文件名以&lt;code&gt;~&lt;/code&gt;开头表示当前用户的主目录。&lt;/p&gt;
+
+&lt;p&gt;通配符可用在规则的命令中，这时shell会对通配符做通配处理。比如：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;clean &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+    rm -f *.o
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;因此如果你要取地址，那么就给出它的定义：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NUM&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;p&gt;通配符还可以用在规则的依赖中，如：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;print &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; *.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+    lpr -p &lt;span class=&quot;nv&quot;&gt;$?&lt;/span&gt;
+    touch print
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;因为声明&lt;code&gt;NUM&lt;/code&gt;时已经给定了初始值，定义时不允许再次给初始值。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;输入&lt;code&gt;make print&lt;/code&gt;指令，它会打印出自从上次打印后有改变的所有c文件。&lt;/p&gt;
 
-&lt;p&gt;如果使用&lt;code&gt;enum&lt;/code&gt;，事情会简单很多：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NUM&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NUM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
-<category term="C++" />
-<category term="宏" />
-<summary>尽量使用常量、枚举和内联函数，代替#define。</summary>
-</entry>
-<entry>
-<title>Item 1：将C++视作一系列的语言</title>
-<link href="http://terminalworld.github.io/2015/11/30/2015-07-19-effective-cpp-1.html" rel="alternate" type="text/html" title="Item 1：将C++视作一系列的语言" />
-<published>2015-11-30T17:23:44+08:00</published>
-<updated>2015-11-30T17:23:44+08:00</updated>
-<id>http://terminalworld.github.io/2015/11/30/2015-07-19-effective-cpp-1</id>
-<content type="html" xml:base="http://terminalworld.github.io/2015/11/30/2015-07-19-effective-cpp-1.html">&lt;blockquote&gt;
-&lt;p&gt;Item 1: View C++ as a federation of languages&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;通配符不能直接用在变量定义上&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; *.o
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这里的objects的值就是*.o。如果你想在此处使用通配符展开，即让*.o代表当前目录下的所有object文件，
+可以这样：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;wildcard *.o&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这里使用了wildcard函数，当我们在Makefile的任一处使用&lt;code&gt;$(wildcard pattern...)&lt;/code&gt;，
+它都会被通配符匹配到的文件名称所替换。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;patsubst %.c, %.o, &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;wildcard *.c&lt;span class=&quot;k&quot;&gt;))&lt;/span&gt;
 
-&lt;p&gt;最初，C++只是C语言加上一些面向对象的特性，所以C++的原名是“C with Classes”。
-现在的C++已经逐渐成熟，成为一门&lt;strong&gt;多范式的程序设计语言&lt;/strong&gt;（multiparadigm programming language）。同时支持过程式、面向对象、函数式、泛型编程，以及元编程。&lt;/p&gt;
+&lt;span class=&quot;nf&quot;&gt;foo &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+    cc -o foo &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;objects&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这里先找到当前目录下的所有.c文件，然后替换成.o文件，最后生成foo目标文件。&lt;/p&gt;
 
-&lt;p&gt;C++的灵活使得它在很多问题上并没有统一的规则，而是取决于具体的程序设计范式和当前架构的设计意图。这样的情况下，我们最好把C++看做是一系列的编程语言，而非一种特定的编程语言。&lt;/p&gt;
+&lt;h1&gt;文件搜索&lt;/h1&gt;
 
-&lt;p&gt;C++有四种主要的子语言：&lt;/p&gt;
+&lt;p&gt;在一些大的工程中，包含大量的源文件，一般我们会把源文件分类，并放在不同的目录中。
+所以，当make去找寻文件的依赖关系时，你可以在文件前加上路径，
+但更好的方法是你把一个路径告诉make，让make自动去查找。&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;C。C++是基于C设计的，你可以只使用C++中C的那部分语法。此时你会发现你的程序反映的完全是C的特征：没有模板、没有异常、没有重载。&lt;/li&gt;
-&lt;li&gt;Object-Oriented C++。面向对象程序设计也是C++的设计初衷：构造与析构、封装与继承、多态、动态绑定的虚函数。&lt;/li&gt;
-&lt;li&gt;Template C++。这是C++的泛型编程部分，多数程序员很少涉及，但模板在很多情况下仍然很方便。另外&lt;strong&gt;模板元编程&lt;/strong&gt;（template metaprogramming）也是一个新兴的程序设计范式，虽然有点非主流。&lt;/li&gt;
-&lt;li&gt;STL。这是一个特殊的模板库，它的容器、迭代器和算法优雅地结合在一起，只是在使用时你需要遵循它的程序设计惯例。当然你也可以基于其他想法来构建模板库。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h2&gt;VPATH：为所有依赖指定搜索目录&lt;/h2&gt;
 
-&lt;p&gt;总之C++并非单一的一门语言，它有很多不同的规则集。因而C++可以被视为四种主要子语言的集合，每个子语言都有自己的程序设计惯例。&lt;/p&gt;
+&lt;p&gt;全局变量VPATH指定了make要去查找的一系列目录。
+如果make没有在当前目录找到需要的依赖文件及目标文件，那么make会依次在这些目录中查找。&lt;/p&gt;
 
-&lt;p&gt;C++程序设计的惯例并非一尘不变，而是取决于你使用C++语言的哪一部分。例如，
-在基于C语言的程序设计中，基本类型传参时传值比传引用更有效率。
-然而当你接触Object-Oriented C++时会发现，传常量指针是更好的选择。
-但是你如果又碰到了STL，其中的迭代器和函数对象都是基于C语言的指针而设计的，
-这时又回到了原来的规则：传值比传引用更好。&lt;/p&gt;
+&lt;p&gt;在VPATH变量中，目录名称间以冒号或者空格符进行分隔（MS-DOS和MS-Windows中以分号作为分隔符，
+因为路径名中可能包含冒号）。&lt;/p&gt;
+
+&lt;p&gt;比如说，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;VPATH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; src : ../headers
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;列出了两个目录src和../headers，make就会按照这个次序进行查找。
+假定foo.c放在src目录下，当我们定义了VPATH之后，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;foo.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;会被解析成这个样子
+&lt;code&gt;makefile
+foo.o : src/foo.c
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2&gt;vpath指令&lt;/h2&gt;
+
+&lt;p&gt;另一个设置文件搜索路径的方法是关键字&lt;code&gt;vpath&lt;/code&gt;，与&lt;code&gt;VPATH&lt;/code&gt;不同的是，
+它具有模式匹配的功能，可以指定不同的文件在不同的搜索目录中。vpath指令有以下三种形式：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;vpath pattern directories&lt;/code&gt; 为符合pattern的文件名指定搜索目录directories。
+可以包含多个目录，目录间通过冒号（MS-DOS和MS-Windows下以分号）或空格符分隔。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;vpath pattern&lt;/code&gt; 清除符合pattern的文件的搜索目录。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;vpath&lt;/code&gt; 清除之前vpath指令设置的搜索目录。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;vpath中的pattern一般需要包含&lt;code&gt;%&lt;/code&gt;字符，&lt;code&gt;%&lt;/code&gt;字符的意思是匹配零到若干字符。
+例如，%.h表示所有以.h结尾的文件（如果没有%，表示完全匹配）。
+谨慎使用vpath清除目录指令，你可能一不小心就疏忽了Makefile中的延迟展开。&lt;/p&gt;
+
+&lt;p&gt;pattern指定了要搜索的文件集，directories指定要搜索的目录。
+比如：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;vpath %.h ../headers
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;告诉make在../headers目录下搜索所有以.h结尾的文件（如果该文件在当前目录没有找到）。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：这里的路径仅限于在Makefile文件中出现的.h文件，并不能指定源文件中包含的头文件的路径
+（.c源文件中包含的头文件的路径需要通过gcc的&lt;code&gt;-I&lt;/code&gt;参数来指定）。&lt;/p&gt;
+
+&lt;p&gt;make按照vpath指令出现的次序依次处理，具有相同pattern的多条指令间无任何关联。&lt;/p&gt;
+
+&lt;p&gt;比如，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;vpath %.c foo
+vpath %   blish
+vpath %.c bar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;make会先在foo目录下查找.c文件，然后是blish目录，最后是bar目录。&lt;/p&gt;
+
+&lt;p&gt;再或者，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;vpath %.c foo : bar
+vpath %   blish
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;make会先在foo目录下查找.c文件，然后是bar目录，最后是blish目录。
+此外，%会匹配所有类型的文件，因此，make可能会在blish目录查找别的类型的文件。&lt;/p&gt;
+
+&lt;h2&gt;在命令行中指定搜索目录&lt;/h2&gt;
+
+&lt;p&gt;当make通过文件搜索找到依赖所在的目录时，命令中的同一个依赖并不会被指定在这个目录。
+因此，你需要为命令行中的文件指定搜索目录，这样make才能够找到这些文件。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$^&lt;/code&gt;就是做这个的，它表示所有依赖的集合，包括查找到的目录路径。&lt;code&gt;$@&lt;/code&gt;表示目标文件。&lt;/p&gt;
+
+&lt;p&gt;于是，Makefile就变成了这个样子（其中变量CFLAGS是C编译参数），&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;foo &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+    cc -c &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CFLAGS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$^&lt;/span&gt; -o &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;有些时候，目标文件需要依赖头文件（比如说头文件中定义了全局变量）。
+而在命令行中不需要使用这些头文件，这时我们可以使用变量&lt;code&gt;$&amp;lt;&lt;/code&gt;，它代表第一个依赖文件。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;VPATH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; src : ../headers
+&lt;span class=&quot;nf&quot;&gt;foo.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hack&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CFLAGS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$&amp;lt;&lt;/span&gt; -o &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;搜索目录和隐式规则&lt;/h2&gt;
+
+&lt;p&gt;make根据隐式规则编译文件时也会自动使用VPATH和vpath指定的搜索目录。&lt;/p&gt;
+
+&lt;p&gt;上例的Makefile使用隐式规则后如下，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;VPATH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; src : ../headers
+&lt;span class=&quot;nf&quot;&gt;foo.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hack&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;make先在当前目录查找foo.c，如果没找到会去搜索src目录和../headers目录。
+找到后根据隐式规则进行编译，编译命令也会使用加上搜索目录后的文件。&lt;/p&gt;
+
+&lt;h2&gt;链接库的搜索目录&lt;/h2&gt;
+
+&lt;p&gt;Makefile中程序链接的静态库、共享库也可以指定搜索目录。这点和指定头文件的目录很像，
+头文件通过-I参数指定，链接库则是以&lt;code&gt;-lname&lt;/code&gt;的形式给出。&lt;/p&gt;
+
+&lt;p&gt;如存在&lt;code&gt;-lname&lt;/code&gt;形式的依赖文件，make会依次在当前目录查找libname.so、libname.a。
+如果没有找到，会接着去VPATH和vpath指定的目录查找。然后是目录/lib、/usr/lib和
+/prefix/lib（一般是/usr/local/lib）。&lt;/p&gt;
+
+&lt;p&gt;比如，/usr/lib目录下有文件libcurses.a，并且不存在文件libcourse.so，那么&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;foo &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; -&lt;span class=&quot;n&quot;&gt;lcurses&lt;/span&gt;
+    cc &lt;span class=&quot;nv&quot;&gt;$^&lt;/span&gt; -o &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;中的命令会被解释成&lt;code&gt;cc foo.c /usr/lib/libcurses.a -o foo&lt;/code&gt;。
+这些是通过变量&lt;code&gt;.LIBPATTERNS&lt;/code&gt;做的匹配。它的默认值是&lt;code&gt;lib%.so lib%.a&lt;/code&gt;，
+当依赖形如&lt;code&gt;-lname&lt;/code&gt;时，会被匹配成&lt;code&gt;libname.so&lt;/code&gt;或者&lt;code&gt;libname.a&lt;/code&gt;后做路径搜索。&lt;/p&gt;
+
+&lt;h1&gt;伪目标&lt;/h1&gt;
+
+&lt;p&gt;伪目标其实是命令行的别名，而不是目标文件的名字。使用伪目标有两个好处：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;避免与同名文件的冲突&lt;/li&gt;
+&lt;li&gt;提高性能&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;下面是一个例子，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;clean &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+    rm *.o temp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这里的clean就是一个伪目标，因为rm命令并不会创建一个名为clean的文件。&lt;/p&gt;
+
+&lt;p&gt;然而这个例子存在一个弊端，就是可能造成与同名文件的冲突。
+如果当前目录下存在名为clean的文件，加上clean的依赖为空，clean会被认为最新的，所以不会去执行rm命令。&lt;/p&gt;
+
+&lt;p&gt;为了避免这种情况，可以显式的声明clean为伪目标。如下，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;.PHONY &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clean&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;clean &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    rm *.o temp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样，即使当前目录下存在名为clean的文件也不会影响&lt;code&gt;make clean&lt;/code&gt;的执行。&lt;/p&gt;
+
+&lt;p&gt;伪目标的一个应用场景是make的并行和递归执行。一个简单的实现方式是在命令行中使用shell循环，如下，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;SUBDIRS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; foo bar baz
+
+&lt;span class=&quot;nf&quot;&gt;subdirs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; dir in &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;SUBDIRS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;MAKE&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; -C &lt;span class=&quot;nv&quot;&gt;$$&lt;/span&gt;dir&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;但这种方式会带来2个问题：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;子目录执行make出现失败时，make不会退出。我们很难定位到哪一个目录执行失败。&lt;/li&gt;
+&lt;li&gt;没有用到make对目录的并行处理功能。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;通过将子目录设置为伪目标可以解决这些问题，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;SUBDIRS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; foo bar baz
+
+&lt;span class=&quot;nf&quot;&gt;.PHONY &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subdirs&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SUBDIRS&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;subdirs &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SUBDIRS&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;$(SUBDIRS) &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+    &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;MAKE&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; -C &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;foo &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;baz&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上面的&lt;code&gt;foo : baz&lt;/code&gt;规定了子目录的执行顺序，子目录baz完成编译后才会去编译子目录foo。&lt;/p&gt;
+
+&lt;p&gt;伪目标不能是真实目标的依赖，如果是这样，更新真实目标或者执行伪目标都会发生不必要的牵连。&lt;/p&gt;
+
+&lt;p&gt;伪目标也可以有依赖文件。同样它还可以是默认（最终）目标，只需要把它放在第一个。
+设想这样一个场景，在一个目录下包含多个程序。如果你希望一条make指令就能编译所有的程序，
+我们可以利用一个伪目标all，并把这些程序设置成它的依赖文件。如下，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;all &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prog&lt;/span&gt;1 &lt;span class=&quot;n&quot;&gt;prog&lt;/span&gt;2 &lt;span class=&quot;n&quot;&gt;prog&lt;/span&gt;3
+&lt;span class=&quot;nf&quot;&gt;.PHONY &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;prog1 &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prog&lt;/span&gt;1.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;utils&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;
+    cc -o prog1 prog1.o utils.o
+
+&lt;span class=&quot;nf&quot;&gt;prog2 &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prog&lt;/span&gt;2.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; 
+    cc -o prog2 prog2.o
+
+&lt;span class=&quot;nf&quot;&gt;prog3 &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prog&lt;/span&gt;3.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sort&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;utils&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;
+    cc -o prog3 prog3.o sort.o utils.o
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这时，只需一条make指令，就能编译这三个程序。我们也可以使用&lt;code&gt;make prog1&lt;/code&gt;来单独生成prog1。&lt;/p&gt;
+
+&lt;p&gt;另外，伪目标也可以是依赖。比如，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;.PHONY &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cleanall&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cleanobj&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cleandiff&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;cleanall &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cleanobj&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cleandiff&lt;/span&gt;
+    rm program
+
+&lt;span class=&quot;nf&quot;&gt;cleanobj &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+    rm *.o
+
+&lt;span class=&quot;nf&quot;&gt;cleandiff &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    rm *.diff
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这里输入&lt;code&gt;make cleanall&lt;/code&gt;就可以删除object files、difference files和program。
+同样也可以输入&lt;code&gt;make cleanobj&lt;/code&gt;来删除object files。&lt;/p&gt;
+
+&lt;p&gt;备注：&lt;code&gt;-rm&lt;/code&gt;在缺少删除文件时，不会退出，但会打印错误信息。
+&lt;code&gt;rm -f&lt;/code&gt;在缺少删除文件时，不会退出，也不会打印错误信息。
+因而可以在Makefile中定义变量&lt;code&gt;RM = rm -f&lt;/code&gt;，然后使用&lt;code&gt;$(RM)&lt;/code&gt;来代替rm。&lt;/p&gt;
+
+&lt;h1&gt;没有命令或依赖的规则&lt;/h1&gt;
+
+&lt;p&gt;先来看一个例子，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;clean &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FORCE&lt;/span&gt;
+    rm &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;objects&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;FORCE &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;例子中&lt;code&gt;FORCE&lt;/code&gt;和伪目标中&lt;code&gt;.PHONY : clean&lt;/code&gt;的作用是相同的。它符合如下条件：&lt;/p&gt;
+
+&lt;p&gt;如果一条规则中没有命令或者依赖，并且目标是一个并不存在的文件时，
+make在执行这条规则时，总认为该目标是最新的。那么依赖该目标的文件，它的命令行每次都会被执行。&lt;/p&gt;
+
+&lt;p&gt;实际上，使用&lt;code&gt;.PHONY&lt;/code&gt;更加清晰且效率更高，但有些版本的make并不支持伪目标，这时就得使用&lt;code&gt;FORCE&lt;/code&gt;了。&lt;/p&gt;
+
+&lt;h1&gt;空目标文件&lt;/h1&gt;
+
+&lt;p&gt;上面我们有提到这样一个例子，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;print &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+    lpr -p &lt;span class=&quot;nv&quot;&gt;$?&lt;/span&gt;
+    touch print
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;print就是一个空目标文件，它通常只有这一个作用——记录事件。本例中是用来记录自从上次打印后foo.c和bar.c中有变动的文件。
+print可以不存在或者为空，主要用来记录时间戳。一旦foo.c或者bar.c发生改变后，我们就会把发生改变的文件打印出来，然后重新创建print文件。
+&lt;code&gt;$?&lt;/code&gt;用来打印发生改动的文件。&lt;/p&gt;
+
+&lt;h1&gt;多目标&lt;/h1&gt;
+
+&lt;p&gt;Makefile的规则支持多目标，一条多目标规则相当于多条单目标规则。
+自动化变量&lt;code&gt;$@&lt;/code&gt;的使用可以帮助规则中的命令适用于所有的目标。多目标一般用于以下两种情况，&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;规则中只描述了依赖关系，并没有定义命令。如：
+&lt;code&gt;makefile
+kbd.o command.o files.o : command.h
+&lt;/code&gt;
+这条makefile给3个目标文件增加了一个依赖。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;相似的命令行作用于所有的目标。重新生成目标的命令行并不需要完全相同，可以通过&lt;code&gt;$@&lt;/code&gt;来引用具体的目标。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;bigoutput littleoutput &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
+    generate text.g -&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;subst output,,&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &amp;gt; &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;等价于&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;bigoutput &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
+    generate test.g -big &amp;gt; bigoutput
+&lt;span class=&quot;nf&quot;&gt;littleoutput &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
+    generate test.g -little &amp;gt; littleoutput
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;例子中generate根据命令行参数决定输出文件的类型。&lt;/p&gt;
+
+&lt;h1&gt;静态模式&lt;/h1&gt;
+
+&lt;p&gt;静态模式可以更加容易的定义多目标规则。它可以根据目标的名字来构造出依赖文件的名字。
+依赖名字不必完全相同，但需要是相似的。&lt;/p&gt;
+
+&lt;p&gt;如下，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;targets ... &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;-&lt;span class=&quot;n&quot;&gt;pattern&lt;/span&gt; : &lt;span class=&quot;n&quot;&gt;prereq&lt;/span&gt;-&lt;span class=&quot;n&quot;&gt;patterns&lt;/span&gt; ...
+    recipe
+    ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;targets定义了一系列的目标文件，可以有通配符。是目标的一个集合。
+target-pattern和prereq-patterns说明了如何通过目标文件生成依赖文件。&lt;/p&gt;
+
+&lt;p&gt;target-pattern定义了targets的模式。&lt;/p&gt;
+
+&lt;p&gt;prereq-patterns定义了目标的依赖模式。它对target-parttern形成的模式再进行一次依赖目标的定义。&lt;/p&gt;
+
+&lt;p&gt;看这样一个例子，它通过foo.c、bar.c编译foo.o和bar.o。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; foo.o bar.o
+
+&lt;span class=&quot;nf&quot;&gt;all &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;$(objects) &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; %.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; : %.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CC&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; -c &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CFLAGS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$&amp;lt;&lt;/span&gt; -o &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;例子中，指明了我们的目标从&lt;code&gt;$objects&lt;/code&gt;中获取，%.o代表所有以.o结尾的目标，也就是foo.o和bar.o，
+也就是变量&lt;code&gt;$objects&lt;/code&gt;集合的模式，而依赖模式%.c取模式%.o中的%，也就是foo和bar，并为其加上后缀.c，
+于是我们的依赖目标就是foo.c和bar.c。&lt;/p&gt;
+
+&lt;p&gt;于是，上面的规则展开后等价于下面的规则。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;foo.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CC&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; -c &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CFLAGS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; foo.c -o foo.o
+&lt;span class=&quot;nf&quot;&gt;bar.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CC&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; -c &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CFLAGS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; bar.c -o bar.o
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;所有的目标都要符合target-pattern才行，如果存在target不符合target-pattern，make会报warning。
+如果存在一长串文件，其中只有一些是符合pattern的，我们可以通过使用filter函数来移除不相符的文件。&lt;/p&gt;
+
+&lt;p&gt;比如，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;files&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; foo.elc bar.o lose.o
+
+&lt;span class=&quot;nf&quot;&gt;$(filter %.o, $(files))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; %.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;: %.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CC&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; -c &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CFLAGS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$&amp;lt;&lt;/span&gt; -o &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;$(filter %.elc, $(files)) &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; %.&lt;span class=&quot;n&quot;&gt;elc&lt;/span&gt;: %.&lt;span class=&quot;n&quot;&gt;el&lt;/span&gt;
+    emacs -f batch-byte-compile &lt;span class=&quot;nv&quot;&gt;$&amp;lt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中&lt;code&gt;$(filter %.o, $(files))&lt;/code&gt;的结果是过滤出.o文件，得到bar.o和lose.o。&lt;/p&gt;
+
+&lt;p&gt;下面这个例子展示了静态模式规则中&lt;code&gt;$*&lt;/code&gt;的使用，&lt;code&gt;$*&lt;/code&gt;就是%匹配的结果，比如上例的foo和bar。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;bigoutput littleoutput &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; %&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt; : &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
+    generate text.g -&lt;span class=&quot;nv&quot;&gt;$*&lt;/span&gt; &amp;gt; &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中&lt;code&gt;$*&lt;/code&gt;表示big和little。&lt;/p&gt;
+
+&lt;h1&gt;自动生成依赖&lt;/h1&gt;
+
+&lt;p&gt;在Makefile中，我们的依赖关系中可能包含一系列的头文件，比如在main.c中通过&lt;code&gt;#include&lt;/code&gt;包含了defs.h，
+那么我们的依赖关系是，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;main.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样，每次defs.h发生改变时，make就会重新生成main.o。如果是一个比较大的工程，你必须清楚哪些C文件包含了哪些头文件，
+并且，你要在加入或者删除头文件的时候也要小心翼翼的修改Makefile。为了避免这个麻烦，可以使用C/C++编译器一个功能。
+通过支持&lt;code&gt;-M&lt;/code&gt;选项，编译器会帮助你在源文件中查找&lt;code&gt;#include&lt;/code&gt;行，从而自动生成依赖关系。&lt;/p&gt;
+
+&lt;p&gt;比如，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cc -M main.c
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其输出是，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;main.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样你就不用手动写这些依赖关系了，编译器会帮你做这些。
+此外，如果在main.c中包含了标准库的头文件，&lt;code&gt;-M&lt;/code&gt;选项会把标准库头文件的依赖描述也包含在内。
+如不需要在依赖关系中考虑标准库头文件，可使用&lt;code&gt;-MM&lt;/code&gt;参数。&lt;/p&gt;
+
+&lt;p&gt;那么编译器的这个功能如何与我们的Makefile联系在一起呢？GNU建议把为每个源文件生成的依赖关系放在一个文件中，
+即为每一个&lt;code&gt;name.c&lt;/code&gt;生成一个&lt;code&gt;name.d&lt;/code&gt;的Makefile文件，其中&lt;code&gt;name.d&lt;/code&gt;列出了&lt;code&gt;name.o&lt;/code&gt;的依赖。
+于是，我们可以写出.c文件和.d文件的依赖关系，让make自动生成或更新.d文件，并把其包含在主Makefile文件中，
+这样，就可以自动化生成每个文件的依赖关系了。&lt;/p&gt;
+
+&lt;p&gt;下面给出一个模式规则来产生.d文件，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;%.d &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; %.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+    @set -e&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; rm -f &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CC&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; -M &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;CPPFLAGS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$&amp;lt;&lt;/span&gt; &amp;gt; &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;.&lt;span class=&quot;nv&quot;&gt;$$$$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    sed &lt;span class=&quot;s1&quot;&gt;&amp;#39;s,\($*\)\.o[ :]*,\1.o $@ : ,g&amp;#39;&lt;/span&gt; &amp;lt; &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;.&lt;span class=&quot;nv&quot;&gt;$$$$&lt;/span&gt; &amp;gt; &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    rm -f &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;.&lt;span class=&quot;nv&quot;&gt;$$$$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;此规则的含义是所有的.d文件依赖同名的.c文件。
+&lt;code&gt;-e&lt;/code&gt;参数表示，如果$(CC)命令执行失败，shell立即退出执行。
+如果不希望依赖标准库头文件可用&lt;code&gt;-MM&lt;/code&gt;参数来代替&lt;code&gt;-M&lt;/code&gt;。
+第二行的意思是，为每一个&lt;code&gt;$&amp;lt;&lt;/code&gt;即.c文件，生成依赖关系，并放在一个临时文件里，&lt;code&gt;$$$$&lt;/code&gt;表示当前进程号。
+第三行使用sed命令做了一个替换。第四行是删除临时文件。&lt;/p&gt;
+
+&lt;p&gt;总而言之，这个模式要做的事情就是在编译器生成的依赖关系中加入.d文件的依赖，即把依赖关系&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;main.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;转成&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;main.o main.d &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;于是，我们的.d文件也自动更新了，并能自动生成，当然，你还可在这个.d文件中加入生成命令，
+让每个.d文件都包含一个完整的规则。一旦完成这个工作，我们就可以接着把这些自动生成的规则放到
+我们的主Makefile中。可以使用Makefile的include命令，来引入别的Makefile文件。&lt;/p&gt;
+
+&lt;p&gt;如，&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;sources&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; foo.c bar.c
+&lt;span class=&quot;cp&quot;&gt;include $(sources:.c=.d)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上述语句中的&lt;code&gt;$(sources:.c=.d)&lt;/code&gt;中的&lt;code&gt;.c=.d&lt;/code&gt;是做一个替换，把变量$(sources)中的所有.c字符串替换为.d。
+当然你得注意次序，因为include是按次载入文件，最先载入的.d文件中的目标会成为最终目标。&lt;/p&gt;
+
+&lt;p&gt;参考：
+&lt;a href=&quot;https://www.gnu.org/software/make/manual/make.pdf&quot;&gt;GNU Make&lt;/a&gt;
+&lt;a href=&quot;http://blog.csdn.net/haoel/article/details/2886&quot;&gt;跟我一起写Makefile&lt;/a&gt;&lt;/p&gt;
 </content>
-<category term="C++" />
-<category term="STL" />
-<category term="模板" />
-<summary>C++程序设计的惯例并非一尘不变，而是取决于你使用C++语言的哪一部分。</summary>
+<category term="Makefile" />
+<summary>规则包括两个部分：一是依赖关系，二是生成目标的方法。</summary>
+</entry>
+<entry>
+<title>二、书写Makefile</title>
+<link href="http://terminalworld.github.io/2015/12/25/makefile-2.html" rel="alternate" type="text/html" title="二、书写Makefile" />
+<published>2015-12-25T00:00:00+08:00</published>
+<updated>2015-12-25T00:00:00+08:00</updated>
+<id>http://terminalworld.github.io/2015/12/25/makefile-2</id>
+<content type="html" xml:base="http://terminalworld.github.io/2015/12/25/makefile-2.html">&lt;blockquote&gt;
+&lt;p&gt;make在读取到Makefile后，想要编译工程需要哪些信息？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1&gt;Makefile里有什么?&lt;/h1&gt;
+
+&lt;p&gt;Makefile里包含五类东西：显式规则、隐式规则、变量定义、文件指示和注释。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;显式规则给出了编译所需的三个要素：target、prerequisites和recipe。&lt;/li&gt;
+&lt;li&gt;隐式规则是指利用make的自动推导规则来简化Makefile。
+包括识别并依赖相同名字的C文件，给出默认的recipe来创建及更新target。&lt;/li&gt;
+&lt;li&gt;变量定义类似C语言中的宏，它将变量定义为一个文本串，并拓展到后面的相应位置上。&lt;/li&gt;
+&lt;li&gt;文件指示包含三部分的内容：读取别的Makefile，类似C中的include；
+根据情况使用或者忽略Makefile的一部分，类似C中的#if；
+及定义多行的命令。&lt;/li&gt;
+&lt;li&gt;注释。Makefile只有行注释，注释字符和shell一样采用&lt;code&gt;#&lt;/code&gt;字符。
+如果需要使用#字符，可做转义&lt;code&gt;\#&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;此外，可通过&lt;code&gt;\&lt;/code&gt;来分隔较长行。&lt;/p&gt;
+
+&lt;h1&gt;Makefile的文件名&lt;/h1&gt;
+
+&lt;p&gt;make默认会在当前目录依次查找这些文件：GNUmakefile、makefile和Makefile。并解释查找到的第一个文件。建议使用Makefile。&lt;/p&gt;
+
+&lt;p&gt;此外，可以通过参数&lt;code&gt;-f name&lt;/code&gt;或者&lt;code&gt;--file=name&lt;/code&gt;来指定别的文件名书写Makefile。&lt;/p&gt;
+
+&lt;h1&gt;引用别的Makefile&lt;/h1&gt;
+
+&lt;p&gt;include指令告诉make在当前指令处先去读取别的Makefiles，然后再继续读取当前Makefile。include指令如下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;cp&quot;&gt;include filenames...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;filenames可以是shell文件模式（可以包含路径和通配符）。第一个字符不能是&lt;code&gt;tab&lt;/code&gt;，否则会被当成recipes处理。
+比如，当前目录下有3个.mk文件，a.mk、b.mk、c.mk，$(bar)代表bish、bash，那么如下的命令&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;cp&quot;&gt;include foo *.mk $(bar)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;等价于&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;cp&quot;&gt;include foo a.mk b.mk c.mk bish bash&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;include指令用来包含变量和模式规则的集合，此外还可用于从源文件自动产生依赖文件。&lt;/p&gt;
+
+&lt;p&gt;如果被包含的文件不是通过绝对路径给出，并且在当前目录无法找到该文件，make会从以下目录查找：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;通过&lt;code&gt;-I&lt;/code&gt;或&lt;code&gt;--include-dir&lt;/code&gt;指定的目录；&lt;/li&gt;
+&lt;li&gt;如果存在以下目录&lt;code&gt;prefix/include&lt;/code&gt;（一般是/usr/local/include），会按照这样的次序依次去查找该文件/usr/gnu/include，
+/usr/local/include，/usr/include。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;如果在如上目录中查找不到被包含的Makefile，make会产生警告信息，但是并不会报错。
+它会继续执行Makefile，一旦完成Makefile的读取，make会重试这些文件，如果还是不行，此时make报错。&lt;/p&gt;
+
+&lt;p&gt;使用&lt;code&gt;-include&lt;/code&gt;指令可屏蔽报错信息。为了兼容make版本，可采用&lt;code&gt;sinclude&lt;/code&gt;指令，效果等同&lt;code&gt;-include&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h1&gt;环境变量MAKEFILES&lt;/h1&gt;
+
+&lt;p&gt;如果定义了环境变量MAKEFILES，那么make会把这个变量的值做一个类似include的操作。
+这个变量中的值一般是其他的Makefile，用空格分隔。该变量一般用作make的递归调用。
+但会影响到所有Makefile的使用，不建议设置。&lt;/p&gt;
+
+&lt;h1&gt;Makefile的重新生成&lt;/h1&gt;
+
+&lt;p&gt;Makefile文件可由别的文件重新生成，比如RCS、SCCS文件。如果Makefile文件是由这些文件生成的，
+make应当能够获取到最新的Makefile版本。&lt;/p&gt;
+
+&lt;p&gt;过程如下：在读取完所有的Makefile文件后，make会尝试更新每一个Makefile文件。
+有些Makefile文件包含更新规则（或者包含在别的Makefile文件中）或者适合某些隐式更新规则，那么就会在需要的时候更新它。
+检查完所有的Makefile文件后，如果存在Makefile文件被更新，make会清空执行状态并重新读取Makefile文件。&lt;/p&gt;
+
+&lt;p&gt;如果你希望一些Makefile文件不应当被重新生成，并且不希望隐式规则找到这些文件，
+或者是出于效率的考虑，可以采取一些方法去避免隐式规则。比如，书写一个显示规则，把Makefile文件作为目标，
+把相应的命令（recipe）设置为空。&lt;/p&gt;
+
+&lt;p&gt;倘若Makefile采用只有命令没有依赖的双冒号规则去重新生成文件，那么这个文件每次都会被更新。
+从而导致死循环：make会不断的重新生成这些文件。为了避免这种情况，make重新生成Makefile时会忽略这类规则。&lt;/p&gt;
+
+&lt;p&gt;另外如果没有通过&lt;code&gt;-f&lt;/code&gt;或者&lt;code&gt;--file&lt;/code&gt;参数来指定Makefile，make会尝试默认的Makefile文件名。
+此时，make无法确定该文件是否存在。如果该文件不存在，可以通过make（隐式）规则自动创建它。
+它会按照Makefile文件名的搜索规则去进行创建，直到创建成功或者尝试了所有的文件名。
+注意到如果make无法找到或者创建Makefile文件，make并不会报错。Makefile文件并不是make正确运行的前提。&lt;/p&gt;
+
+&lt;p&gt;当你使用参数&lt;code&gt;-t&lt;/code&gt;或者&lt;code&gt;--touch&lt;/code&gt;时，肯定不希望使用旧的Makefile版本来决定创建哪个对象。
+因此在重新生成Makefile时，这些参数是没有意义的。类似的参数还有&lt;code&gt;-q&lt;/code&gt;（或者&lt;code&gt;--qustion&lt;/code&gt;）和&lt;code&gt;-n&lt;/code&gt;（或者&lt;code&gt;--just-print&lt;/code&gt;）。
+但是如果不想要重新生成Makefile，这些参数就能够帮到你了。
+比如指令&lt;code&gt;make -f mfile -n mfile foo&lt;/code&gt;，它会读取到makefile文件mfile，
+然后打印出生成mfile所需的指令，及更新foo所需要的指令，但并不会执行这些指令。&lt;/p&gt;
+
+&lt;h1&gt;重载另一个Makefile&lt;/h1&gt;
+
+&lt;p&gt;有些情况下，存在着两个类似的Makefile。你可以在其中任一个Makefile文件中通过&lt;code&gt;include&lt;/code&gt; 来引用另一个Makefile，
+从而使用另一个Makefile定义的变量和规则。但是如果两个Makefile存在相同目标，以及不同的命令，这在Makefile中是不允许的。&lt;/p&gt;
+
+&lt;p&gt;假定两个Makefile文件mk1、mk2，mk1要包含mk2。我们可以在mk1中使用&lt;code&gt;match-anything pattern&lt;/code&gt;
+（所有匹配模式）规则来重新生成上述的目标。&lt;/p&gt;
+
+&lt;p&gt;比如，当前目录存在一个名为&lt;strong&gt;Makefile&lt;/strong&gt;文件用来编译&lt;code&gt;foo&lt;/code&gt;等目标，你可以编写一个名为&lt;strong&gt;GNUmakefile&lt;/strong&gt;的文件如下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;foo &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    frobnicate &amp;gt; foo
+&lt;span class=&quot;nf&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;force&lt;/span&gt;
+    @&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;MAKE&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; -f Makefile &lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;force &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; ;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;此时，如果在当前目录输入&lt;code&gt;make foo&lt;/code&gt;，make会查找到&lt;strong&gt;GNUmakefile&lt;/strong&gt;，读取后执行命令&lt;code&gt;frobnicate &amp;gt; foo&lt;/code&gt;。
+如果输入&lt;code&gt;make bar&lt;/code&gt;，由于make在&lt;strong&gt;GNUmakefile&lt;/strong&gt;找不到bar目标，会采用模式规则中的命令
+&lt;code&gt;make -f Makefile bar&lt;/code&gt;，然后make去执行名为&lt;strong&gt;Makefile&lt;/strong&gt;的文件包含的更新bar的规则。&lt;/p&gt;
+
+&lt;p&gt;其中&lt;code&gt;%&lt;/code&gt;用来匹配任意目标，并添加了一个依赖force，用来确保目标存在的时候，命令也能被执行。
+此外，force的命令为空以防止通过隐式规则创建它，不然force也会被&lt;code&gt;match-anything pattern&lt;/code&gt;
+匹配到，从而陷入死循环。&lt;/p&gt;
+
+&lt;h1&gt;make是如何解析Makefile的&lt;/h1&gt;
+
+&lt;p&gt;GNU make工作时分为2个阶段。&lt;/p&gt;
+
+&lt;p&gt;第1个阶段如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;读取所有的Makefile文件及被包含的Makefile等&lt;/li&gt;
+&lt;li&gt;初始化文件中的变量&lt;/li&gt;
+&lt;li&gt;推导隐式和显式规则&lt;/li&gt;
+&lt;li&gt;为所有的目标创建依赖关系链&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;第2阶段如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;根据依赖关系，决定哪些目标需要重新生成&lt;/li&gt;
+&lt;li&gt;执行生成命令&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;两阶段过程对于理解变量和函数的展开十分重要。在第1阶段中，定义的变量被使用了，那么make会把其展开在使用的位置，
+这种是立即展开（immediate expansion）。延后展开（deferred expansion）是指make尽可能的往后拖延，
+直到这条依赖被使用时才进行展开。&lt;/p&gt;
+
+&lt;p&gt;参考：
+&lt;a href=&quot;https://www.gnu.org/software/make/manual/make.pdf&quot;&gt;GNU Make&lt;/a&gt;
+&lt;a href=&quot;http://blog.csdn.net/haoel/article/details/2886&quot;&gt;跟我一起写Makefile&lt;/a&gt;&lt;/p&gt;
+</content>
+<category term="Makefile" />
+<summary>make读取到Makefile后，想要编译工程需要哪些信息？</summary>
+</entry>
+<entry>
+<title>一、Makefile简介</title>
+<link href="http://terminalworld.github.io/2015/12/12/makefile-1.html" rel="alternate" type="text/html" title="一、Makefile简介" />
+<published>2015-12-12T00:00:00+08:00</published>
+<updated>2015-12-12T00:00:00+08:00</updated>
+<id>http://terminalworld.github.io/2015/12/12/makefile-1</id>
+<content type="html" xml:base="http://terminalworld.github.io/2015/12/12/makefile-1.html">&lt;blockquote&gt;
+&lt;p&gt;Makefile告诉make如何编译和链接程序&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Makefile定义了一系列的规则来指定，哪些文件需要先编译，哪些文件需要后编译，哪些文件需要重新编译，及一些更复杂的操作。
+一旦写好，只需要一条&lt;code&gt;make&lt;/code&gt;命令，整个工程完全自动编译，极大提高软件开发效率。&lt;/p&gt;
+
+&lt;h1&gt;Makefile编译规则&lt;/h1&gt;
+
+&lt;p&gt;Makefile的编译规则如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;如果这个工程没有被编译过，那么我们的所有C文件都要编译并被链接。&lt;/li&gt;
+&lt;li&gt;如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。&lt;/li&gt;
+&lt;li&gt;如果这个工程的头文件被修改，那么我们只需要编译引用了这几个头文件的C文件，并链接目标程序。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;因此，make会自动智能地根据当前文件的修改情况确定哪些文件需要编译，从而编译所需文件及链接目标程序。&lt;/p&gt;
+
+&lt;h1&gt;Makefile规则&lt;/h1&gt;
+
+&lt;p&gt;一个简单的Makefile具有这样的结构:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;target... &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prerequisites&lt;/span&gt;...
+    recipe
+    ...
+    ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中target是目标文件，它可以是可执行文件或者object files。此外还可以是一个标签，表示要执行的动作（如clean）。&lt;/p&gt;
+
+&lt;p&gt;prerequisites是生成target所需要的文件，生成一个target一般需要多个这样的文件。&lt;/p&gt;
+
+&lt;p&gt;recipe是make的执行动作，由一到多条命令组成。&lt;strong&gt;注意&lt;/strong&gt;：每个recipe行须以1-多个&lt;code&gt;tab&lt;/code&gt;键开始。
+可以通过设置&lt;code&gt;.RECIPEPREFIX&lt;/code&gt;来使用别的前缀字符。&lt;/p&gt;
+
+&lt;p&gt;如果prerequisites中有超过一个的文件比target要新的话，recipe就会被执行。这就是Makefile的规则。&lt;/p&gt;
+
+&lt;h1&gt;一个示例&lt;/h1&gt;
+
+&lt;p&gt;下面的这个Makefile文件描述了怎样通过8个c文件和3个头文件，产生8个object files，并继而产生可执行文件edit的过程。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;edit &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kbd&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;display&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; \
+        &lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;files&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;utils&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;
+        cc -o edit main.o kbd.o command.o display.o &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+            insert.o search.o files.o utils.o
+
+&lt;span class=&quot;nf&quot;&gt;main.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c main.c
+&lt;span class=&quot;nf&quot;&gt;kbd.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kbd&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c kbd.c
+&lt;span class=&quot;nf&quot;&gt;command.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c command.c
+&lt;span class=&quot;nf&quot;&gt;dispaly.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dispaly&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c display.c
+&lt;span class=&quot;nf&quot;&gt;insert.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c insert.c
+&lt;span class=&quot;nf&quot;&gt;search.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c search.c
+&lt;span class=&quot;nf&quot;&gt;files.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;files&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c files.c
+&lt;span class=&quot;nf&quot;&gt;utils.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;utils&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    cc -c utils.c
+&lt;span class=&quot;nf&quot;&gt;clean&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    rm edit main.o kbd.o command.o display.o &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        insert.o search.o files.o utils.o
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中\用来表示换行。&lt;/p&gt;
+
+&lt;p&gt;把这些内容保存在Makefile或者makefile文件中后，只需在当前目录输入&lt;code&gt;make&lt;/code&gt;就能生成可执行文件edit。&lt;/p&gt;
+
+&lt;p&gt;输入&lt;code&gt;make clean&lt;/code&gt;可删除执行文件及所有的中间文件。&lt;/p&gt;
+
+&lt;p&gt;在这个示例中，target包括可执行文件edit和object files。prerequisites包括c文件和头文件。
+此外，object file可以是target，也可以是prerequisites。&lt;/p&gt;
+
+&lt;p&gt;这里clean并非一个文件，它只是一个行为的名称而已。注意到clean既不是一个prerequisites，也不依赖任何prerequisites。
+这类规则的目的就是为了执行特定的命令。比如程序的打包、备份等。&lt;/p&gt;
+
+&lt;h1&gt;make是如何工作的&lt;/h1&gt;
+
+&lt;p&gt;默认情况下，make从第一个target开始（如上例的edit）作为最终的目标文件。默认目标文件可通过&lt;code&gt;.DEFAULT_GOAL&lt;/code&gt;进行改写。&lt;/p&gt;
+
+&lt;p&gt;当输入&lt;code&gt;make&lt;/code&gt;后：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;make读取当前目录的Makefile或者makefile文件。&lt;/li&gt;
+&lt;li&gt;如果读取到，make查找第一个target文件(edit)并作为最终的目标文件。&lt;/li&gt;
+&lt;li&gt;如果edit文件不存在，或者edit依赖的后面的.o文件的修改时间比edit这个文件要新，那么执行后面定义的命令来生成edit文件。&lt;/li&gt;
+&lt;li&gt;按照同样的规则处理edit依赖的.o文件。&lt;/li&gt;
+&lt;li&gt;直到C文件及头文件。这时make通过C文件及头文件生成.o文件，然后一层层通过.o文件生成可执行文件edit。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;因此，如果我们修改了文件insert.c，然后执行make，make会编译文件并更新insert.o，然后链接edit。&lt;/p&gt;
+
+&lt;h1&gt;变量可以精简Makefile&lt;/h1&gt;
+
+&lt;p&gt;上例的这些语句中，object files被重复2次：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;edit &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kbd&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;display&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; \
+        &lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;files&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;utils&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;
+        cc -o edit main.o kbd.o command.o display.o &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+            insert.o search.o files.o utils.o
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样每次新加一个object file，就需要修改2个地方。
+随着Makefile文件变得越来越复杂，可维护性就会越来越差。Makefile变量的使用可以精简Makefile进而提高可维护性。
+可以定义objects、OBJECTS、objs、OBJS等来表示列出的objects files。&lt;/p&gt;
+
+&lt;p&gt;比如在Makefile的一开始定义这样的变量,&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; main.o kbd.o command.o display.o &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+            insert.o search.o files.o utils.o
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;于是就能在Makefile中通过&lt;code&gt;$(objects)&lt;/code&gt;来使用这个变量了。&lt;/p&gt;
+
+&lt;h1&gt;让make自动推导&lt;/h1&gt;
+
+&lt;p&gt;make会根据这样的隐式规则编译C文件：&lt;/p&gt;
+
+&lt;p&gt;在更新.o文件时，make会自动识别相关C文件，把它加到prerequisites列表中，并通过&lt;code&gt;cc -c&lt;/code&gt;命令进行编译。
+因此我们无需添加相关recipes就可以自动编译相关C文件。&lt;/p&gt;
+
+&lt;p&gt;在使用了变量及自动推导后，如上的示例可简化成这个样子：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; main.o kbd.o command.o display.o &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+            insert.o search.o files.o utils.o
+
+&lt;span class=&quot;nf&quot;&gt;edit &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+        cc -o edit &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;objects&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;main.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;kbd.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;command.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;display.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;insert.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;search.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;file.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;utils.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;.PHONY &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clean&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;clean &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+        rm edit &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;objects&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;.PHONY&lt;/code&gt;表示clean是一个伪目标文件。&lt;/p&gt;
+
+&lt;h1&gt;另类风格的Makefile&lt;/h1&gt;
+
+&lt;p&gt;我们先上Makefile，风格看起来是这样的：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; main.o kbd.o command.o display.o &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+            insert.o search.o files.o utils.o
+
+&lt;span class=&quot;nf&quot;&gt;edit &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+        cc -o edit &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;objects&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;$(objects) &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;kbd.o command.o files.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;display.o insert.o search.o files.o &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;想必大家都能看出来，上面是按照target进行分类，这个则是按照prerequisites分类。
+这种风格的优点是代码看起来紧凑些，缺点则是条理性较差。&lt;/p&gt;
+
+&lt;h1&gt;清空目标文件的规则&lt;/h1&gt;
+
+&lt;p&gt;Makefile也会做一些编译外的事情，如删除可执行文件与object files。&lt;/p&gt;
+
+&lt;p&gt;一般的风格是：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;clean &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+        rm edit &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;objects&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;或者是能处理意想不到情况，更符合规范的写法：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-makefile&quot; data-lang=&quot;makefile&quot;&gt;&lt;span class=&quot;nf&quot;&gt;.PHONY &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clean&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;clean &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+        -rm edit &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;objects&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;.PHONY&lt;/code&gt;表示clean是一个伪目标，在rm前加一个减号的意思是某些文件出现问题时也会继续执行。此外，clean一般放在文件的最后。&lt;/p&gt;
+
+&lt;p&gt;参考：
+&lt;a href=&quot;https://www.gnu.org/software/make/manual/make.pdf&quot;&gt;GNU Make&lt;/a&gt; 
+&lt;a href=&quot;http://blog.csdn.net/haoel/article/details/2886&quot;&gt;跟我一起写Makefile&lt;/a&gt; &lt;/p&gt;
+</content>
+<category term="Makefile" />
+<summary>Makefile告诉make如何编译和链接程序。</summary>
 </entry>
 </feed>

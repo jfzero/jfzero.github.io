@@ -66,7 +66,7 @@ const int GamePlayer::NumTurns; //NumTurns的定义式，声明中已设初值�
 一旦宏被定义，它在后面的编译过程中就一直有效（除非被#undef）。因此也不能提供封装性，即没有所谓的private #define这样的东西。
 但const成员变量是可以被封装的（NumTurns就是）。
 
-旧的编译器也许不支持static成员在声明时获得初值，这时你可以在定义式中赋初值：
+旧的编译器可能并不支持static成员在声明时获得初值，此时你可以在定义式中赋初值：
 
 ```cpp
 class CostEstimate {
@@ -94,7 +94,7 @@ private:
 
 `the enum hack`的以下特性也值得我们认识一番：
 
-1. `the enum hack`在某些方面表现的更像#define而不像const，有时这正式我们想要的。
+1. `the enum hack`在某些方面表现的更像#define而不像const，有时这正是我们想要的。
 比如，取一个const 的地址是合法的，但取一个enum或#define是不合法的。
 如果我们不希望别人获取该常量的指针或引用，就可以使用enum。
 又比如，虽然优秀的编译器不会为整数型const对象设定另外的内存空间（除非你创建了指向该对象的pointer或reference），不够优秀的编译器却未必如此。
@@ -111,7 +111,7 @@ private:
 #define CALL_WITH_MAX(a, b) f((a) > (b) ? (a) : (b)) 
 ```
 
-然后这样使用了它，
+如果这样使用了它，
 
 ```cpp
 int a = 5, b = 0;
@@ -121,7 +121,7 @@ CALL_WITH_MAX(++a, b+10);   //a累加一次
 
 在这里，调用f之前，a的递增次数竟取决于**它和谁进行比较！**
 
-幸运的是我们还可以使用template inline函数来代替宏，这样既不会失去宏带来的效率，又能拥有一般函数的所有可预料行为和类型安全性。
+幸运的是我们可以使用template inline函数来代替宏，这样既不会失去宏带来的效率，又能拥有一般函数的所有可预料行为和类型安全性。
 
 ```cpp
 template<typename T>                            //由于不知道
@@ -133,6 +133,6 @@ inline void callWithMax(const T& a, const T& b) //T是什么，采用
 
 这个template产生了一个函数群，每个函数都接受两个同型对象，并以其中较大者调用f。
 
-当然const、enum和inline确实降低了预处理器（特别是#define）的需求，但并非完全消除。
+当然const、enum和inline确实降低了预处理器（特别是#define）的需求，但并不能完全消除这些需求。
 \#include仍然是必需品，#ifdef/#ifndef也继续扮演控制编译的重要角色。
 

@@ -57,7 +57,7 @@ std::vector<int>::const_iterator cIter = vec.begin();       //like a const T*
 这点可以这样来记忆，STL内部的迭代器一般都支持++操作，因此`const_iterator`是指向常量的迭代器。
 
 const最具威力的用法是当声明函数时。
-在一函数声明式中，它可以用来修饰函数的返回值、各个参数、甚至是函数本身（如果是成员函数）。
+在一函数声明式中，它可以用来修饰函数的返回值、各个参数、甚至是函数本身（如果是类的成员函数）。
 
 将函数的返回值声明为const可以降低错误使用造成的意外。比如，考虑一个有理数关于operator\*的声明。
 
@@ -120,7 +120,7 @@ const TextBlock ctb("World");
 std::cout << ctb[0];                    //调用const TextBlock::operator[]
 ```
 
-注意到const成员函数和非const成员函数的返回值类型是不同的。这样就能就能对返回值做不同的处理，
+注意到const成员函数和非const成员函数的返回值类型是不同的。这样就能根据返回值做不同的处理，
 
 ```cpp
 std::cout << tb[0];                     //fine, reading a non-const TextBlock
@@ -140,10 +140,12 @@ tb[0] = 'x';
 会编译报错。因为此时该成员函数的返回值是个内置类型，而修改内置类型的值肯定是不合法的。
 即便是合法的，C++中以`by value`方式返回对象意味着被修改的只是`tb.text[0]`的一个副本而已，而非`tb.text[0]`本身。
 
-那么如何定义const成员函数呢？有这样两个阵营：bitwise constness（又称physical constness）和logic constness。
+#bitwise constness和logical constness
 
-* bitwise constness是C++关于常量性的定义，它主张const成员函数中不能修改该对象的非静态数据成员。
+说到这里，你可能对const成员函数有个大致的了解了。
+那么如何定义const成员函数呢？有这样两个阵营：bitwise constness（又称physical constness）和logical constness。
 
+* bitwise constness是C++关于常量性的定义，它主张const成员函数中不能修改该对象的任何一个bits（静态数据成员除外）。
 * 然而有很多成员函数表现的并不是很const却也能通过bitwise的测试（其实是编译的测试）。
 
 还是先来看个例子，
@@ -171,7 +173,7 @@ char *pc = &cctb[0];
 *pc = 'J';                              //cctb的值变成了Jello!
 ```
 
-这便是logical constness一派的观点，它们主张const成员函数在通过编译器检测的情况下，可以适当的修改对象内的一些bits。
+这里我们引出logical constness一派的观点，它们主张const成员函数在通过编译器检测的情况下，可以适当的修改对象内的一些bits。
 此外，还可以利用关键字`mutable`来释放掉bitwise constness对non-static成员的约束。比如CTextBlock可能缓存了文本区块的长度以应对查询，
 
 ```cpp

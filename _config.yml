@@ -1,18 +1,21 @@
 name: terminalworld 
 url: http://terminalworld.github.io
 description: Time goes on. We live. We learn.
-keywords: C++, Linux, Bash, Vim, Makefile, Pthread
+keywords: C++, Linux, Bash, Vim, UNP 
 
 permalink: /:year/:month/:day/:title.html
-paginate: 4
+paginate: 5
 paginate_path: "page:num"
 
-markdown: redcarpet
-markdown_ext:  md
-highlighter: pygments
+markdown: kramdown 
+markdown_ext: md
+highlighter: rouge 
 excerpt_separator: "<!--more-->"
-redcarpet:
-    extensions: [no_intra_emphasis,tables,autolink,fenced_code_blocks]
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  hard_wrap: false
+lsi: false
 
 exclude: ['README.md', '*.sh', '.*', 'scripts/', 'backup']
 

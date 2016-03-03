@@ -23,6 +23,7 @@ gems:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jekyll-feed
+  - jekyll-paginate
 
 cate_icons:
   reading: "fa-book"

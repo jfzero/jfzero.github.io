@@ -127,7 +127,7 @@ import (
 
 func main() {
     f, err := os.Create("cpu.out")
-    if err == nil {
+    if err != nil {
         log.Fatal(err)
     }
     pprof.StartCPUProfile(f)        // 开始cpu profile，结果写到文件f中

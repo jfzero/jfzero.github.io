@@ -106,13 +106,16 @@ benchmark和pprof简直不能更赞！通过benchmark和pprof，我们可以很�
 package fib
 
 func Fib(n int) int {
+
     a, b, tmp := 0, 1, 0
     for i := 1; i <= n; i++ {
         tmp = a + b
         a = b
         b = tmp
     }
+
     return a
+
 }
 ```
 
@@ -126,6 +129,7 @@ import (
 )
 
 func main() {
+
     f, err := os.Create("cpu.out")
     if err != nil {
         log.Fatal(err)

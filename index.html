@@ -9,7 +9,7 @@ layout: default
 
 <div class="row">
 
-  <div class="col-lg-2 col-md-2 hidden-sm"> </div>
+  <div class="col-lg-2 col-md-2"> </div>
 
   <div class="col-lg-8 col-md-8"> {{ content }}
 
@@ -30,12 +30,11 @@ layout: default
 
         <div class="md">{{ post.content | split:'<!--more-->' | first }}</div>
 
-<!--        
         <a class="more pull-right" href="{{ post.url }}" target='_blank'>
           全文
           <span class="fa fa-angle-right"></span>
         </a>
--->        
+       
       </div>
       {% endfor %}
     </div>
@@ -61,7 +60,7 @@ layout: default
     {% include latex.html %}
   </div>
   <!--sidebar-->
-  <div class="col-lg-2 col-md-2 hidden-sm"> </div>
+  <div class="col-lg-2 col-md-2"> </div>
 
     <!--
     <div class="item-list tags">

@@ -23,18 +23,19 @@ layout: default
             {% include date.html post=post %}
           </div>
         </h3>
+
         <p class="meta">
           {% include categories.html post=post %}
           {% include tags.html post=post %}
         </p>
 
         <div class="md">{{ post.content | split:'<!--more-->' | first }}</div>
-
+<!--
         <a class="more pull-right" href="{{ post.url }}" target='_blank'>
           全文
           <span class="fa fa-angle-right"></span>
         </a>
-       
+-->       
       </div>
       {% endfor %}
     </div>

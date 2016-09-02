@@ -11,14 +11,13 @@ layout: default
 
   <div class="col-lg-2 col-md-2"> </div>
 
-  <div class="col-lg-8 col-md-8"> {{ content }}
-
+  <div class="col-lg-8 col-md-8">
     <div id="posts">
       {% for post in paginator.posts %}
       <div class="post paper">
+
         <h3 class="header">
           <a class="feature-link" href="{{post.url}}">{{ post.title }}</a>
-
           <div class="pull-right text-muted">
             {% include date.html post=post %}
           </div>
@@ -30,12 +29,6 @@ layout: default
         </p>
 
         <div class="md">{{ post.content | split:'<!--more-->' | first }}</div>
-<!--
-        <a class="more pull-right" href="{{ post.url }}" target='_blank'>
-          全文
-          <span class="fa fa-angle-right"></span>
-        </a>
--->       
       </div>
       {% endfor %}
     </div>
@@ -62,43 +55,6 @@ layout: default
   </div>
   <!--sidebar-->
   <div class="col-lg-2 col-md-2"> </div>
-
-    <!--
-    <div class="item-list tags">
-      <script type="text/plain" id="tag-data">
-        {% for tag in site.tags %}{% assign name = tag|first %}{% assign count = tag|last|size %}{{name}},{{count}}/{% endfor %}
-      </script>
-      <div class="tag-cloud"></div>
-    </div>
-
-
-    <div class="item-list categories">
-      <h4 class="page-header"><a class="feature-link" href="/category.html">归档</a></h4>
-      <ol class="list-unstyled">
-        {% for cate in site.categories %}
-        <li>
-        <a href="/category.html#category-{{cate | first}}">
-          {{cate | first | capitalize}} ({{ cate | last | size }})
-        </a>
-        </li>
-        {% endfor %}
-      </ol>
-    </div>
-
-
-    <div class="item-list recent-titles">
-      <h4 class="page-header"><a class="feature-link" href="/">Recent</a></h4>
-      <ol class="list-unstyled">
-        {% for post in site.posts limit : 100000 %}
-        <li><a data-toggle="tooltip" data-placement="left" title="{{ post.date | date: " %Y-%m-%d"}}"
-          href="{{post.url}}">{{post.title}}</a> </li>
-        {% endfor %}
-      </ol>
-    </div>
-    -->    
-
-
-
 </div>
 
 {% include moment.html %}
@@ -121,33 +77,5 @@ layout: default
       text: 'No more posts.',
       html: '<div class="ias-noneleft" style="text-align: center;color:#fff">{text}</div>'
     }));
-
-    var tagData = $('script#tag-data').html();
-    var words = tagData
-        .split('/')
-        .filter(function (tag) {
-          return tag.trim() != '';
-        })
-        .map(function (tag) {
-          var tokens = tag.split(','),
-              text = tokens[0].trim();
-          return {
-            text: text,
-            weight: parseInt(tokens[1].trim()),
-            link: '/tag.html#tag-' + text
-          };
-        })
-//        .filter(function(tag){
-//          return tag.weight > 1;
-//        })
-        .sort(function(lhs, rhs){
-          return rhs.weight - lhs.weight;
-        })
-        .slice(0, 100);
-
-    $('.tag-cloud').jQCloud(words, {
-      //shape: 'rectangular',
-      removeOverflowing: true
-    });
   });
 </script>
